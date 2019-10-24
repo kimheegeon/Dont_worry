@@ -1,3 +1,7 @@
 backend/node_modules
 IoT_RFID/node_modules
 IoT_sensor/node_modules
+blockchain/node_modules
+blockchain/build
+blockchain/deployedABI
+blockchain/deployedAddress
