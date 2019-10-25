@@ -1,0 +1,143 @@
+@import 'common';
+
+nav {
+  height: 52px;
+  width:100vw;
+  position: fixed;
+  &.navbar {
+    /*padding: 6.6px 10px 6.6px 11px;*/
+    justify-content: flex-end;
+    padding: 5px 3px 5px 11px;
+    height:52px;
+    width:100vw;
+    background-color: hsl(73, 73%, 78%)!important;
+    
+    .btn-back {
+      color: #25abce;
+      font-size: 14px;
+      font-weight: bold;
+
+      &:hover {
+        color: #25abce;
+      }
+    }
+
+    .btn-back img {
+      margin-right: 2px;
+      margin-top: -3px;
+      width: 9px;
+    }
+
+    .img-logo {
+      img {
+        width:90px;
+        // width: 160px;
+      }
+    }
+  }
+
+  &.navbar-toggler {
+    padding: 1px .75rem 2px;
+  }
+}
+
+button {
+  &.btn-default {
+    background-color: #fcc6e1;
+    color: #fff;
+  }
+}
+
+.sidemenu{
+  background-color: #fcc6e1;
+  height:100%;
+  position: fixed;
+  width:280px;
+  top:0;
+  right:0;
+}
+
+.btn-sidemenu{
+  background-color:hsl(73, 73%, 78%);
+  border:transparent;
+  padding-left: 2%;
+  width: 85px;
+  margin-top: -1%;
+  padding-right: 0px;
+}
+
+.btn-sidemenu img {
+  height: 40px;
+}
+
+button:focus {
+  outline: none;
+}
+
+.sidemenu-end {
+  background-color:#fcc6e1;
+  border:transparent;
+  margin-top:2%;
+  padding-left: 10%;
+  width: 85px;
+  margin-top: -1%;
+  padding-right: 0px;
+}
+.sidemenu-end img{
+  width:40px;
+}
+
+.sidemenu ul{
+  position: relative;
+  list-style:none;
+  top:20px;
+  padding-left:0;
+}
+
+.sidemenu div{
+  width: 100%;
+  color:#fff;
+  text-decoration: none;
+  float: left;
+  margin-left: 40%;
+  margin-right: 1%;
+}
+
+.sidemenu ul li{
+  width: 100%;
+  margin:30px 0;
+  border-bottom: solid;
+  border-color: #fff;
+  border-width: 1px;
+  color: #fff;
+  padding-left: 5%;
+}
+
+.sidemenu ul li a{
+  color:#fff;
+  text-decoration: none;
+}
+
+.sidemenu ul li a:hover{
+  color:gray;
+}
+
+.show-enter-active {
+  transition: all .1s ease;
+}
+.show-leave-active {
+  transition: all .1s
+}
+.show-enter, .show-leave-to {
+  //width:0;
+  //opacity: 0;
+  transform: translateX(10px);
+  opacity: 0;
+}
+
+.sidewords{
+  color:#fff;
+  position: absolute;
+  bottom: 0;
+  text-align: right;
+}

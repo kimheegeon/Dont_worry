@@ -1,0 +1,37 @@
+@import 'common';
+
+body {
+  background-color: #ffffff;
+  padding-top: 52px;
+  white-space:nowrap;
+  display: block;
+  }
+
+#app {
+  height: 100vh;
+  vertical-align: middle;
+  background-color:hsl(73, 73%, 78%);
+}
+
+.main{
+  padding-top: 28%;
+}
+
+img.mainicon{
+  max-width: 60%;
+}
+
+img.location{
+  max-width:7%;
+}
+
+.title{
+  font-size: 3rem;
+  font-weight: bold;
+}
+
+.set_location{
+  width:100%;
+  font-size: 1.1rem;
+  margin-top: 5%;
+}

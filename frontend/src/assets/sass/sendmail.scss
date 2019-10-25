@@ -1,0 +1,102 @@
+@import 'common';
+
+main {
+  // margin-top: 52px;
+  &.main-idx {
+    height: calc(100% - 6px);
+  }
+  &.full-height {
+    height: 100%;
+    overflow: hidden;
+    word-wrap: break-word;
+  }
+}
+
+.content-title {
+  border-bottom: 1px solid #d6d6d6;
+  height: 54px;
+  padding-top: 12px;
+  text-align: center;
+}
+
+.content-title,
+.form-user .form-group label {
+  color: #1f2b61;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.form-wrapper {
+  padding-bottom: 15px;
+  padding-top: 24px;
+}
+
+.form-user .form-group {
+  position: relative;
+}
+
+.form-user .form-group.required:after {
+  background-color: #ff6868;
+  border-radius: 4px;
+  content: '필수';
+  color: #fff;
+  font-size: 10px;
+  padding: 2.5px 10px;
+  right: 0;
+  position: absolute;
+  top: 5px;
+}
+
+.form-user .form-group label {
+  margin-bottom: 4px;
+  width: 25%;
+}
+
+.form-user input.form-control {
+  padding: 9px 0.75rem;
+  width: 60%;
+  margin-right: 13%;
+  float: right;
+}
+
+.form-user input.form-control-contents{
+  padding: 9px 0.75rem;
+  height: 25vh;
+  width: 100%;
+}
+
+.full-width-border {
+  border-bottom: 1px solid #d6d6d6;
+  height: 1px;
+  margin: 18px -30px 20px;
+}
+
+.form-user .form-group.form-email,
+.form-user .form-group.form-uid {
+  margin-bottom: 24px;
+}
+
+.form-user .form-group input.is-invalid {
+  background-color: #ffd2d2;
+  border-color: #e50000;
+}
+
+.form-user .form-group .invalid-feedback {
+  display: block;
+  color: #e50000;
+  font-size: 15px;
+  font-weight: bold;
+  margin-bottom: -10px;
+  margin-top: 2%;
+}
+
+.vue-loading {
+  margin-top: 7%;
+  margin-left: 40%;
+  position: absolute;
+  z-index: 100;
+}
+
+.btn.btn-lg{
+  font-size: 1.2rem;
+}
