@@ -1,5 +1,6 @@
 <template>
   <div class="sendmail">
+    <sidemenu/>
     <main role="main" class="full-height">
       <div class="content-title text-center">악취 신고</div>
       <div class="container">
@@ -31,6 +32,7 @@
 </template>
 
 <script>
+import Nav from '../../src/components/Layout/Nav'
 import BaseModal from './Modal/BaseModal'
 import { mapMutations,mapGetters } from 'vuex'
 
@@ -53,6 +55,7 @@ export default {
     };
   },
   components: {
+    'sidemenu':Nav,
     'ErrorModal': BaseModal
   },
   mounted() {

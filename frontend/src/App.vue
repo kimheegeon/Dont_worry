@@ -1,7 +1,7 @@
 <template>
   <div class="app" :class="classObject">
     <router-view/>
-    <sidemenu/>
+    <!-- <sidemenu/> -->
   </div>
 </template>
 

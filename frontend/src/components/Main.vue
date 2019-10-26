@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <sidemenu/>
     <div class="main" v-if="WaterQ == 1">
      <p class="title">아주 좋음</p>
      <p><img class="location" src="../assets/image/location.png">{{location}}</p>
@@ -23,6 +24,7 @@
 </template>
 
 <script>
+import Nav from '../../src/components/Layout/Nav'
 import BaseModal from './Modal/BaseModal'
 import { mapMutations,mapGetters } from 'vuex'
 
@@ -30,7 +32,7 @@ export default {
   name: 'App',
   data(){
     return {
-      WaterQ: 3,
+      WaterQ: 1,
       location:"제주시 한림읍 225",
       lat:'',
       lng:'',
@@ -41,6 +43,7 @@ export default {
     }
   },
   components: {
+    'sidemenu':Nav,
     'ErrorModal': BaseModal
   },
   methods: {
