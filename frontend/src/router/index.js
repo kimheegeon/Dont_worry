@@ -4,7 +4,10 @@ import Main from '@/components/Main'
 import SendMail from '@/components/SendMail'
 import onlyMobile from '@/components/onlyMobile'
 import Search from '@/components/Search'
+import Vuex from 'vuex'
+
 Vue.use(Router)
+Vue.use(Vuex)
 
 export default new Router({
   routes: [

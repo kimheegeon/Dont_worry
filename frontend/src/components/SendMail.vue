@@ -32,6 +32,7 @@
 
 <script>
 import BaseModal from './Modal/BaseModal'
+import { mapMutations,mapGetters } from 'vuex'
 
 export default {
   name: 'SendMail',
@@ -55,6 +56,10 @@ export default {
     'ErrorModal': BaseModal
   },
   mounted() {
+  },
+  created() {
+  },
+  computed: {
   },
   methods: {
     SendMail: function() {

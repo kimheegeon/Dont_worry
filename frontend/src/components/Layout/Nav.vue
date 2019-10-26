@@ -1,8 +1,8 @@
 <template>
   <div class="nav">
-    <nav class="navbar navbar-expand-md bg-white fixed-top">
+    <nav class="navbar navbar-expand-md fixed-top" :class="classObject">
       <!-- on일때만 표시 -->
-      <button v-on:click="fire" type="button" class="btn-sidemenu" data-toggle="modal"><img src="../../assets/image/sidemenu.png" /></button>
+      <button v-on:click="fire" type="button" class="btn-sidemenu" :class="classObject" data-toggle="modal"><img src="../../assets/image/sidemenu.png" /></button>
       <transition name="show">
         <div class="sidemenu" v-if="sidemenu_flag==true">
           <div class="sideTop">
@@ -21,12 +21,16 @@
   </div>
 </template>
 <script>
+import { mapMutations, mapState } from 'vuex'
 
 export default {
   name: 'Navbar',
   data() {
     return {
       sidemenu_flag: false,
+      color_flg:'',
+      isActive: false,
+      error: false
     }
   },
   methods:{
@@ -48,6 +52,46 @@ export default {
         this.$router.push({
             path: '/SendMail'
         })
+    },
+    ChangeColor: function(color_flg) {
+      if(color_flg == 1){
+        this.isActive = false
+        this.error = false
+      } else if(color_flg == 2) {
+        this.isActive = true
+        this.error = false
+      } else if(color_flg == 3) {
+        this.isActive = true
+        this.error = true
+      } else {
+        this.isActive = false
+        this.error = false
+      }
+    }
+  },
+  created() {
+    this.color_flg = this.WaterQ
+    this.ChangeColor(this.color_flg)
+  },
+  computed: {
+    ...mapState('auth', {
+      WaterQ: function (state) {
+        return state.WaterQ;
+      }
+    }),
+    classObject:function () {
+      return {
+        active:!this.isActive && !this.error,
+        'active2': this.isActive && !this.error,
+        'active3': this.isActive && this.error
+      }
+    }
+  },
+  watch: {
+    WaterQ: function(val, oldVal) {
+      if(val !== oldVal && val !== ''){
+        this.ChangeColor(val)
+      }
     }
   }
 }

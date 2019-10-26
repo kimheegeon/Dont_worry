@@ -4,14 +4,14 @@ nav {
   height: 52px;
   width:100vw;
   position: fixed;
+
   &.navbar {
     /*padding: 6.6px 10px 6.6px 11px;*/
     justify-content: flex-end;
     padding: 5px 3px 5px 11px;
     height:52px;
     width:100vw;
-    background-color: hsl(73, 73%, 78%)!important;
-    
+
     .btn-back {
       color: #25abce;
       font-size: 14px;
@@ -41,6 +41,18 @@ nav {
   }
 }
 
+nav.navbar.navbar-expand-md.fixed-top.active{
+  background-color: #fdff7f;
+}
+
+nav.navbar.navbar-expand-md.fixed-top.active2{
+  background-color: #fcb8f3;
+}
+
+nav.navbar.navbar-expand-md.fixed-top.active3{
+  background-color: hsl(73, 73%, 78%);
+}
+
 button {
   &.btn-default {
     background-color: #fcc6e1;
@@ -58,12 +70,23 @@ button {
 }
 
 .btn-sidemenu{
-  background-color:hsl(73, 73%, 78%);
   border:transparent;
   padding-left: 2%;
   width: 85px;
   margin-top: -1%;
   padding-right: 0px;
+}
+
+.btn-sidemenu.active{
+  background-color:#fdff7f;
+}
+
+.btn-sidemenu.active2{
+  background-color:#fcb8f3;
+}
+
+.btn-sidemenu.active3{
+  background-color:hsl(73, 73%, 78%);
 }
 
 .btn-sidemenu img {
