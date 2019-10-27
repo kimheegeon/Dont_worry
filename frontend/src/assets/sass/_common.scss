@@ -1,0 +1,331 @@
+// min-width
+$breakpoint-up: (
+  'sm': 'screen and (min-width: 400px)',
+  'md': 'screen and (min-width: 768px)',
+  'lg': 'screen and (min-width: 1000px)',
+  'xl': 'screen and (min-width: 1200px)',
+) !default;
+
+// max-width
+$breakpoint-down: (
+  'sm': 'screen and (max-width: 399px)',
+  'md': 'screen and (max-width: 767px)',
+  'lg': 'screen and (max-width: 999px)',
+  'xl': 'screen and (max-width: 1199px)',
+) !default;
+
+// @mixin
+@mixin mq-up($breakpoint: md) {
+  @media #{map-get($breakpoint-up, $breakpoint)} {
+    @content;
+  }
+}
+
+@mixin mq-down($breakpoint: md) {
+  @media #{map-get($breakpoint-down, $breakpoint)} {
+    @content;
+  }
+}
+
+@mixin mq-up($breakpoint: xl) {
+  @media #{map-get($breakpoint-up, $breakpoint)} {
+    @content;
+  }
+}
+
+@mixin mq-down($breakpoint: xl) {
+  @media #{map-get($breakpoint-down, $breakpoint)} {
+    @content;
+  }
+}
+html, body {
+  //height: 100vh;
+  height: calc(100vh - 53px);
+  display: block;
+}
+
+body {
+  color: #4b4b4b;
+  font-family:-apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", 'Hiragino Kaku Gothic ProN', Meiryo,sans-serif;
+  padding-top: 52px;
+}
+
+body * {
+  box-sizing: border-box;
+}
+
+a,
+* a:link {
+  color: #0000ff;
+  text-decoration:underline;
+}
+
+a:hover,
+* a:hover {
+  text-decoration: none;
+}
+
+select {
+   -webkit-appearance: none;
+   -moz-appearance: none;
+    appearance: none;
+}
+
+#app {
+    font-family: 'Avenir', Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+    color: #2c3e50;
+    height: 100vh;
+}
+
+main {
+  // margin-top: 52px;
+  &.main-idx {
+    height: calc(100% - 6px);
+  }
+  &.full-height {
+    height: 100%;
+    //margin-bottom: 20px;
+  }
+}
+
+div {
+  &.vue-loading {
+    margin-top: 3%;
+  }
+  &.invalid-feedback {
+    display: block;
+  }
+  &.non_data {
+    label {
+      text-align: center;
+      width:100%;
+    }
+  }
+}
+
+.alert {
+  text-align: center;
+}
+
+.container.full-height {
+  height: 100%;
+}
+
+.container.no-pad {
+  padding: 0;
+}
+
+.btn.btn-default {
+  background-color: hsl(22, 97%, 72%);
+  color: #fff !important;
+}
+
+.bg-info {
+  background-color: #25abce;
+}
+
+.btn-default.btn-lg {
+  border-radius: 8px;
+  font-size: 20px;
+  font-weight: bold;
+  padding: 11px 0 10px;
+}
+
+.btn-default.btn-lg.btn-ok {
+  padding: 11px 65.85px 10px;
+}
+
+.modal-dialog {
+  margin: 13px;
+}
+
+.modal-content {
+  border-radius: 12px;
+  overflow: hidden;
+
+}
+
+.modal-container {
+  position: relative;
+}
+
+.modal-body .close,
+.modal-header .close {
+  position: absolute;
+  opacity: 1;
+  right: 7px;
+  top: 7px;
+}
+
+.modal-header {
+  padding: 9px 0 7px;
+  h5 {
+    text-align: center;
+    font-weight: bold;
+    width: 100%;
+  }
+}
+
+.modal-body .close img,
+.modal-header .close img {
+  width: 33px;
+}
+
+.modal-body {
+  padding:0px 20px 20px;
+  .form-group {
+    label {
+      font-size: 20px;
+      font-weight: bold;
+    }
+  }
+  p {
+    color: #1f2b61;
+    font-size: 20px;
+    font-weight: bold;
+    margin: 22px 0 16px;
+
+    &.txt-join-comp {
+      margin: 50px 0 49px;
+    }
+  }
+}
+
+.img-logout {
+  width: 188px;
+}
+
+.img-cancel {
+  width: 180px;
+}
+
+.img-joined {
+  width: 186px;
+}
+
+.btn-default.btn-lg {
+  border-radius: 8px;
+  font-size: 20px;
+  font-weight: bold;
+  padding: 11px 0 10px;
+}
+
+.btn-default.btn-lg.btn-ok {
+  padding: 11px 65.85px 10px;
+}
+
+.mb10 {
+    margin-bottom: 10px;
+}
+
+.modal-mask {
+  position: fixed;
+  z-index: 9998;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 130%;
+  background-color: rgba(0, 0, 0, .5);
+  display: table;
+  transition: opacity .3s ease;
+}
+
+.modal-wrapper {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.modal-container {
+  width: 93%;
+  margin: -30% auto auto auto;
+  // padding: 20px 30px;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
+  transition: all .3s ease;
+  position: relative;
+
+  .btn-wrapper {
+    text-align: center;
+    button {
+      width:150px;
+      height: 40px;
+      &.btn-release {
+        width: 100%;
+        height: auto;
+      }
+    }
+  }
+}
+
+.modal-header h3 {
+  margin-top: 0;
+  color: #42b983;
+}
+
+.modal-body {
+  // margin: 20px 0;
+  border-radius: 12px;
+}
+
+.modal-default-button {
+  float: right;
+}
+
+/*
+ * The following styles are auto-applied to elements with
+ * transition="modal" when their visibility is toggled
+ * by Vue.js.
+ *
+ * You can easily play with the modal transition by editing
+ * these styles.
+ */
+
+.modal-enter {
+  opacity: 0;
+}
+
+.modal-leave-active {
+  opacity: 0;
+}
+
+.modal-enter .modal-container,
+.modal-leave-active .modal-container {
+  -webkit-transform: scale(1.1);
+  transform: scale(1.1);
+}
+
+
+ul {
+  &.pagination {
+    li {
+      display: inline-block;
+      text-align: center;
+      width: 30px;
+      height: 30px;
+      line-height: 30px;
+      border: 1px solid #e5e5e5;
+      a {
+        color: #333333;
+        text-decoration: none;
+      }
+
+      &.active {
+        background-color: #17a2b8;
+        a {
+          color: #ffffff;
+        }
+      }
+    }
+  }
+}
+
+.icon-question{
+    width: 15px;
+    height: 15px;
+    margin-left:5px;
+    margin-top:-5px;
+}
