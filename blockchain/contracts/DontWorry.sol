@@ -5,7 +5,6 @@ contract DontWorry {
     address public owner;
     uint public IoTCnt = 0;
     uint public waterQuality;
-    uint public gasQuality;
     string[] public waterIoTList;
     string[] public rfidList;
     
@@ -18,15 +17,16 @@ contract DontWorry {
         string time;
     }
     
-    struct Gas {
-        string gasQuality;
+    struct PigCnt {
+        string cnt;
         string time;
     }
     
     mapping(string => uint) waterIoTs; // ip address => ip idex
     mapping(uint => mapping(string => Water[])) waterList; //ip index => (string => Water[])
 
-    mapping(string => uint) rfidPigCnt;
+    mapping(string => uint) rfidPigIdx;
+    mapping(uint => PigCnt[]) pigCntList; //ip index => (string => Water[])
     mapping(string => bool) checkRfid; //Duplicate Check
 
     function checkIotIdx(string memory _IotIp) public view returns (bool){
@@ -91,16 +91,42 @@ contract DontWorry {
         return rfidList;
     }
 
-    function putPigCnt(string memory _rfidIp, uint _pigCnt) public {
-        rfidPigCnt[_rfidIp] = _pigCnt;
+    function putPigCnt(string memory _rfidIp, string _pigCnt, string _time) public {
+        PigCnt memory p;
+        p.cnt = _pigCnt;
+        p.time = _time;
         if(!checkRfid[_rfidIp]) {
             rfidList.push(_rfidIp);
             checkRfid[_rfidIp] = true;
+            rfidPigIdx[_rfidIp] = rfidList.length;
+            pigCntList[rfidList.length].push(p);
+        }else{
+            uint idx = rfidPigIdx[_rfidIp];
+            pigCntList[idx].push(p);
         }
     }
 
-    function getPigCnt(string memory _rfidIp) public view returns(uint) {
-        return rfidPigCnt[_rfidIp];
+    function getOnePigCnt(string memory _rfidIp) public view returns(string, string) {
+        uint idx = rfidPigIdx[_rfidIp];
+        uint lastIdx = pigCntList[idx].length - 1;
+        string cnt = pigCntList[idx][lastIdx].cnt;
+        string time = pigCntList[idx][lastIdx].time;
+
+        return (cnt,time);
+    }
+    
+    function getAllPigCntList(string memory _rfidIp) public returns(string) {
+        string memory answer = "";
+        string memory a;
+        string memory b;
+        uint idx = rfidPigIdx[_rfidIp];
+        uint len = pigCntList[idx].length;
+        for(uint i = 0; i < len ; i++){
+            a = append(pigCntList[idx][i].cnt, " ");
+            b = append(pigCntList[idx][i].time, " ");
+            answer = append(answer, append(a, b));
+        }
+        return answer;
     }
     
     function append(string memory a, string memory b) internal pure returns (string memory) {
