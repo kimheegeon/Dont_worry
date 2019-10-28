@@ -32,7 +32,7 @@ export default {
   name: 'App',
   data(){
     return {
-      WaterQ: 1,
+      WaterQ: 3,
       location:"제주시 한림읍 225",
       lat:'',
       lng:'',

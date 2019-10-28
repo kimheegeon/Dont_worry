@@ -1,0 +1,176 @@
+@import "../../common";
+
+div {
+  &#DetailModal {
+    h1 {
+      border-left: 5px solid #549cc4;
+      border-bottom: 1px solid #999999;
+    }
+
+    table {
+      &.DetailTable {
+        width: 100%;
+        //height: 65vh;
+        margin-bottom: 5%;
+
+        tr {
+          border-top: 1px solid #e5e5e5;
+          border-bottom: 1px solid #e5e5e5;
+          // height: 40px;
+          th {
+            text-align: center;
+            background-color: #25abce;
+            // border-top: 1px solid #5cbe50;
+            border-left: 1px solid #fff;
+            font-weight: bold;
+            color: #fff;
+            // height: 83px;
+            white-space: nowrap;
+            font-size: 14px;
+            position: relative;
+
+            button {
+              &.btnEditMode {
+                position: absolute;
+                right: 5%;
+              }
+            }
+          }
+
+          td {
+            // text-align:center;
+            text-align: left;
+            font-weight: normal;
+            padding: 0 5px 0 3%;
+            height: 40px;
+            border-style: none;
+            font-size: 12px;
+            width: 100%;
+
+            .form-group {
+              margin-bottom: 0;
+              margin-top: 5px;
+              margin-left: 0;
+              margin-right: 0;
+            }
+
+            &.td_location {
+              padding: 1%;
+            }
+
+            &:nth-child(odd) {
+              width: 20%;
+            }
+
+            &:nth-child(even) {
+              width: 80%;
+            }
+
+            &.colspan2 {
+              width: 100%;
+              text-align: center;
+              padding: 1% 0;
+            }
+
+            p {
+              margin: 0;
+            }
+
+            label {
+              margin: 0;
+              font-size: 12px;
+              font-weight: normal;
+            }
+
+            img {
+              width: 200px;
+              height: 200px;
+            }
+          }
+
+          &:nth-child(even) {
+            background-color: #f8f8f8;
+          }
+
+          &:nth-child(odd) {
+            background-color: #ffffff;
+          }
+        }
+      }
+    }
+  }
+
+  button {
+    width: 150px;
+    height: 40px;
+  }
+
+  section {
+    margin: 3% 0;
+
+    &:after {
+      clear: both;
+    }
+  }
+
+  .modal-container {
+    // display: flex;
+    margin: -15% auto auto auto;
+    display: block;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+
+    .modal-header {
+      height: 45px;
+
+      .close {
+        padding: 0;
+        margin: 0;
+        height: 33px;
+        width: 33px;
+      }
+    }
+
+    // 내용이 모달 밖으로 튀어나오지 않게 설정
+    .modal-body {
+      width: 96%;
+      height: 65vh;
+      //  padding: 0;
+      .btn-wrapper {
+        text-align: center;
+        padding-bottom: 2.5%;
+      }
+    }
+  }
+
+// vh로 높이 설정함으로써 스크롤바 표시
+  &.DetailModal {
+    //  height: auto;
+    height: 70vh;
+    padding: 1%;
+    // 해상도 1200을 기점으로 표시
+    @include mq-down('xl') {
+      width: 60%;
+      height: 70vh;
+      //    height: auto;
+      overflow-y: scroll;
+      overflow-x: hidden;
+    }
+    @include mq-up('xl') {
+      //    height: auto;
+      height: 70vh;
+      padding-bottom: 1%;
+      width: 60%;
+      overflow-y: scroll;
+      overflow-x: hidden;
+    }
+  }
+}

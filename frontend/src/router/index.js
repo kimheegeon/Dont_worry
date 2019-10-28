@@ -5,11 +5,15 @@ import SendMail from '@/components/SendMail'
 import onlyMobile from '@/components/onlyMobile'
 import Search from '@/components/Search'
 import Vuex from 'vuex'
+import moment from 'vue-moment'
+import { VueLoading } from 'vue-loading-template'
+
 import AdminTop from '@/components/Admin/AdminTop'
 
 Vue.use(Router)
 Vue.use(Vuex)
-
+Vue.use(moment)
+Vue.component('vue-loading', VueLoading)
 export default new Router({
   routes: [
     {
