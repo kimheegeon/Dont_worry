@@ -53,7 +53,39 @@
       </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
   </div><!-- /.modal -->
-  
+
+  <form id="frm1">
+    <h2>[수질 상태 기록]</h2>
+    IoT 기기 api : 
+    <input type="text" id="IoTIP"><br>
+    수질 측정값 : 
+    <input type="text" id="waterValue"><br>
+    <div><input type="button" value="정보 추가" onclick="App.addWaterDatas();"></div>
+  </form>
+
+  <form id="frm2" >
+    <h2>[수질 상태 조회]</h2>
+    조회할 IoT 기기 api : <select id="selectIot"></select><br>
+    조회 날짜 : <div><input type="date" id="currentDate" name="userdate" value=""></div>
+    <div><input type="button" value="조회" onclick="App.getWaterDatas();"></div>
+  </form>
+  <br>
+  <div><input type="button" value="현재 IoT 개수" onclick="App.getIotCnt();"></div>
+  <br>
+  <hr/>
+  <form id="frm3" >
+    <h2>[돼지 수 입력]</h2>
+    입력할 RFID api(양돈가 위치) : <input type="text" id="rfidIp"><br>
+    돼지 수 : <input type="text" id="pigCount"><br>
+    <div><input type="button" value="입력" onclick="App.putPigCnt();"></div>
+  </form>
+ 
+  <form id="frm4" >
+    <h2>[돼지 수 조회]</h2>
+    조회할 RFID api : <select id="selectRFID"></select><br>
+    <div><input type="button" value="조회" onclick="App.getPigCnt();"></div>
+  </form>
+
 </body>
 </html>
 

@@ -62,6 +62,27 @@ contract DontWorry {
         return s;
     }
 
+    function getLatestDataList(string memory _day, string memory _dayBefore) public view returns(string memory) {
+        string memory s = "";
+        
+        for(uint i = 1; i <= waterIoTList.length; i++){
+            Water[] memory w = waterList[i][_day];
+            string memory a;
+            string memory b;
+
+            if(w.length == 0){
+                w = waterList[i][_dayBefore];
+                a = append(waterIoTList[i-1], " ");
+                b = append(w[w.length-1].waterQuality, " ");
+            }else{
+                a = append(waterIoTList[i-1], " ");
+                b = append(w[w.length-1].waterQuality, " ");
+            }
+            s = append(s, append(a, b));
+        }
+        return s;
+    }
+
     function getWaterIoTIps() public view returns(string[]) {
         return waterIoTList;
     }

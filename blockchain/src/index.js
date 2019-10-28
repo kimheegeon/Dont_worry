@@ -14,7 +14,32 @@ const App = {
   },
 
   start: async function () {
-    
+    const walletInstance = sessionStorage.getItem('walletInstance');
+    const date = new Date();
+    document.getElementById('currentDate').value = date.getFullYear() + "-" + (date.getMonth()+1) + "-" + date.getDate();
+    const IotList = await App.getWaterIotIPs();
+    const rfidList = await App.getRfidIPs();
+
+    if(walletInstance) {
+      try{
+        cav.klay.accounts.wallet.add(JSON.parse(walletInstance));
+        this.changeUI(JSON.parse(walletInstance));
+      }catch(e){
+        console.log(e)
+        sessionStorage.removeItem('walletInstance');
+      }
+    }
+
+    for(var count = 0; count < IotList.length ; count++){
+      var option = $("<option>"+IotList[count]+"</option>");
+      $('#selectIot').append(option);
+    }
+
+    for(var count = 0; count < rfidList.length ; count++){
+      var option = $("<option>"+rfidList[count]+"</option>");
+      $('#selectRFID').append(option);
+    }
+
   },
 
   handleImport: async function () {
@@ -81,6 +106,77 @@ const App = {
     }
   },
 
+  getIotCnt: async function () {
+    var cntIot = await agContract.methods.IoTCnt().call();
+    console.log("current water IoT count : ", cntIot);
+  },
+
+  addWaterDatas: async function() {
+    const walletInstance = this.getWallet();
+    const date = new Date();
+    const nowTime = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+    const nowDate = date.getYear().toString().slice(1,3) + (date.getMonth()+1) + date.getDate();
+    const waterIoTIP = document.getElementById('IoTIP').value;
+    const waterValue = document.getElementById('waterValue').value;
+
+    agContract.methods.addWaterData(waterIoTIP, nowDate, waterValue, nowTime).send({
+      from : walletInstance.address,
+      gas : '250000',
+    }, function(error, result){
+      if(error) console.log("err : ", error);
+    })
+    .once('transactionHash', (txHash) => {
+      console.log(`txHash: ${txHash}`);
+    })
+    .once('receipt', (receipt) => {
+      console.log(`(#${receipt.blockNumber})`, receipt);
+    })
+  },
+
+  getWaterDatas: async function() {
+    const walletInstance = this.getWallet();
+    const lookupDate = document.getElementById('currentDate').value;
+    const modifyDate = lookupDate.slice(2,4) + lookupDate.slice(5,7) + lookupDate.slice(8,10);
+    const IotIp = document.getElementById('selectIot').value;
+
+    var waterData = await agContract.methods.getWaterData(IotIp, modifyDate).call();
+    console.log("waterData :", waterData);
+  },
+
+  putPigCnt: async function() {
+    const walletInstance = this.getWallet();
+    const rfidIP = document.getElementById('rfidIp').value;
+    const pigCount = document.getElementById('pigCount').value;
+    
+    agContract.methods.putPigCnt(rfidIP, pigCount).send({
+      from : walletInstance.address,
+      gas : '250000',
+    }, function(error, result){
+      if(error) console.log("err : ", error);
+    })
+    .once('transactionHash', (txHash) => {
+      console.log(`txHash: ${txHash}`);
+    })
+    .once('receipt', (receipt) => {
+      console.log(`(#${receipt.blockNumber})`, receipt);
+    });
+  },
+
+  getPigCnt: async function() {
+    const rfidIP = document.getElementById('selectRFID').value;
+    var pigCnt = await agContract.methods.getPigCnt(rfidIP).call();
+    console.log("양돈가 돼지 수 : ", pigCnt);
+  },
+
+  getWaterIotIPs: async function() {
+    var ioTList = await agContract.methods.getWaterIoTIps().call();
+    return ioTList;
+  },
+
+  getRfidIPs: async function() {
+    var rfidList = await agContract.methods.getRfidIPs().call();
+    return rfidList;
+  },
 
   showTimer: function () {
 
