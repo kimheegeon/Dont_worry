@@ -16,7 +16,7 @@
       <CountList v-if="selectCountList" @CurrentList="changeTab(1)" @AlertedList="changeTab(2)"></CountList>
     </div>
     <app-footer class="footer_public"></app-footer>
-    <ErrorModal v-if="showModalError" @close="showModalError = false" :title="modalErrTitle" :message="modalErrMessage"></ErrorModal>
+    <BaseModal v-if="showModalError" @close="showModalError = false" :title="modalErrTitle" :message="modalErrMessage"></BaseModal>
   </div>
 </template>
 
@@ -28,6 +28,8 @@ import AdminAlerted from './AdminAlerted'
 import CountList from './CountList'
 import BaseModal from '../Modal/BaseModal'
 import { mapActions,mapMutations } from 'vuex'
+import socket from 'socket.io'
+import io from 'socket.io-client'
 
 export default {
   name: 'AdminTop',
@@ -39,7 +41,9 @@ export default {
       showModalError: false,
       modalErrTitle: '',
       modalErrMessage: '',
-      indexTab: ''
+      indexTab: '',
+      Waterdata:'',
+      flag: false,
     }
   },
   components: {
@@ -81,11 +85,39 @@ export default {
       this.selectAdminCurrentList = false
       this.selectAdminAlerted = false
       this.selectCountList = true
+    },
+    ShowAlert: function(flag) {
+      if(flag == true){
+        this.showModalError = true
+        this.modalErrTitle = '에러 발생'
+        this.modalErrMessage = this.Waterdata
+      } else {
+        this.showModalError = false
+        this.modalErrTitle = ''
+        this.modalErrMessage = ''
+      }
     }
   },
   created: function() {
+    var socket = io.connect('http://localhost:3001')
+    var userInput = 'asdsd'
+    socket.emit('message', { message: userInput })
+
+    var self = this
+    socket.on('echo', function (data) {
+      self.Waterdata = data['message']
+      if(self.Waterdata !==''){
+        console.log("messageIsNotNull",self.Waterdata)
+        self.ShowAlert(true)
+      } else {
+        console.log("messageIsNull")
+        self.ShowAlert(false)
+      }
+    })
   },
   updated() {
+  },
+  mounted: function(){
   }
 }
 </script>
