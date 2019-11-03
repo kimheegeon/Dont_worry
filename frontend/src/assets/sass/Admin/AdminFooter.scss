@@ -1,0 +1,29 @@
+div {
+    &.footer_login {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+    }
+  
+    &.footer_public {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+    }
+  }
+  
+  footer {
+    // background-color: #e4007f;
+    background-color: #1C295E;
+    color: #fff;
+    text-align: center;
+    width: 100%;
+    height: 30px;
+    line-height: 30px;
+    p {
+      margin: 0;
+    }
+  }
+  

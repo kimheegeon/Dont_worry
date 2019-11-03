@@ -7,7 +7,7 @@ var cron = require('node-cron');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
-
+var Caver = require('./caver');
 
 var app = express();
 
@@ -44,5 +44,7 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+Caver.start();
 
 module.exports = app;

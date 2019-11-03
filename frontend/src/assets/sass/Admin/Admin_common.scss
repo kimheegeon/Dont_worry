@@ -1,0 +1,34 @@
+//관리사이트 모달표시
+.admin-modal-container {
+    width: 400px;
+    height: 150px;
+    position: absolute;
+    top: -15%;
+    left: 0;
+    right:0;
+    bottom:0;
+    margin: auto auto auto auto;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
+    transition: all .3s ease;
+    }
+  .admin-modal-header {
+    height: 30px;
+    text-align: center;
+    border-bottom: solid 1px #e9ecef;
+  }
+  .admin-modal-body {
+    white-space: pre-line;
+    text-align: center;
+  }
+  .admin-btn-wrapper {
+    text-align: center;
+    margin-top: 5%;
+    button {
+      width: 140px;
+      height: 40px;
+      background-color: #25abce;
+      color: #fff !important;
+    }
+  }
