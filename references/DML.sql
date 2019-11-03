@@ -1,0 +1,55 @@
+insert into iot_rfid(address) values("제주");
+insert into iot_rfid(address) values("서귀포");
+insert into iot_rfid(address) values("성산");
+insert into iot_rfid(address) values("성판악");
+insert into iot_rfid(address) values("이어도");
+insert into iot_rfid(address) values("추자도");
+insert into iot_rfid(address) values("제주도북부앞바다");
+insert into iot_rfid(address) values("제주도남부앞바다");
+insert into iot_rfid(address) values("제주도동부앞바다");
+insert into iot_rfid(address) values("제주도서부앞바다");
+
+insert into iot_water(address) values("제주");
+insert into iot_water(address) values("서귀포");
+insert into iot_water(address) values("성산");
+insert into iot_water(address) values("성판악");
+insert into iot_water(address) values("이어도");
+insert into iot_water(address) values("추자도");
+insert into iot_water(address) values("제주도북부앞바다");
+insert into iot_water(address) values("제주도남부앞바다");
+insert into iot_water(address) values("제주도동부앞바다");
+insert into iot_water(address) values("제주도서부앞바다");
+
+insert into pig(iot_ID,pig,time) values(1,3000,'2019-05-23');
+insert into pig(iot_ID,pig,time) values(2,3245,'2019-05-23');
+insert into pig(iot_ID,pig,time) values(3,5461,'2019-05-23');
+insert into pig(iot_ID,pig,time) values(4,4567,'2019-05-23');
+insert into pig(iot_ID,pig,time) values(5,1235,'2019-05-23');
+insert into pig(iot_ID,pig,time) values(6,23456,'2019-05-23');
+insert into pig(iot_ID,pig,time) values(7,1235,'2019-05-23');
+insert into pig(iot_ID,pig,time) values(8,7854,'2019-05-23');
+insert into pig(iot_ID,pig,time) values(9,4567,'2019-05-23');
+insert into pig(iot_ID,pig,time) values(10,2345,'2019-05-23');
+
+INSERT INTO water(iot_ID,turbidity,time,waterq,trans) VALUES(1,464,'2019-05-23',99,'ASDGASDAHSDHASF');
+INSERT INTO water(iot_ID,turbidity,time,waterq,trans) VALUES(2,136,'2019-05-23',80,'ASDGASDAHSDHASF');
+INSERT INTO water(iot_ID,turbidity,time,waterq,trans) VALUES(3,1234,'2019-05-23',20,'ASDGASDAHSDHASF');
+INSERT INTO water(iot_ID,turbidity,time,waterq,trans) VALUES(4,325,'2019-05-23',15,'ASDGASDAHSDHASF');
+INSERT INTO water(iot_ID,turbidity,time,waterq,trans) VALUES(5,323,'2019-05-23',46,'ASDGASDAHSDHASF');
+INSERT INTO water(iot_ID,turbidity,time,waterq,trans) VALUES(6,134,'2019-05-23',70,'ASDGASDAHSDHASF');
+INSERT INTO water(iot_ID,turbidity,time,waterq,trans) VALUES(7,324,'2019-05-23',130,'ASDGASDAHSDHASF');
+INSERT INTO water(iot_ID,turbidity,time,waterq,trans) VALUES(8,152,'2019-05-23',150,'ASDGASDAHSDHASF');
+INSERT INTO water(iot_ID,turbidity,time,waterq,trans) VALUES(9,346,'2019-05-23',160,'ASDGASDAHSDHASF');
+INSERT INTO water(iot_ID,turbidity,time,waterq,trans) VALUES(10,235,'2019-05-23',152,'ASDGASDAHSDHASF');
+
+INSERT INTO report(comments,mail,address,time) VALUES("냄새가 너어무 심해여1","gmlrjs9503@gmail.com","제주",'2019-05-23');
+INSERT INTO report(comments,mail,address,time) VALUES("냄새가 너어무 심해여2","gmlrjs9503@gmail.com","서귀포",'2019-05-23');
+INSERT INTO report(comments,mail,address,time) VALUES("냄새가 너어무 심해여3","gmlrjs9503@gmail.com","성산",'2019-05-23');
+INSERT INTO report(comments,mail,address,time) VALUES("냄새가 너어무 심해여4","gmlrjs9503@gmail.com","고산",'2019-05-23');
+INSERT INTO report(comments,mail,address,time) VALUES("냄새가 너어무 심해여5","gmlrjs9503@gmail.com","성판악",'2019-05-23');
+INSERT INTO report(comments,mail,address,time) VALUES("냄새가 너어무 심해여6","gmlrjs9503@gmail.com","이어도",'2019-05-23');
+INSERT INTO report(comments,mail,address,time) VALUES("냄새가 너어무 심해여7","gmlrjs9503@gmail.com","추자도",'2019-05-23');
+INSERT INTO report(comments,mail,address,time) VALUES("냄새가 너어무 심해여8","gmlrjs9503@gmail.com","제주도북부앞바다",'2019-05-23');
+INSERT INTO report(comments,mail,address,time) VALUES("냄새가 너어무 심해여9","gmlrjs9503@gmail.com","제주도남부앞바다",'2019-05-23');
+INSERT INTO report(comments,mail,address,time) VALUES("냄새가 너어무 심해여10","gmlrjs9503@gmail.com","제주도동부앞바다",'2019-05-23');
+INSERT INTO report(comments,mail,address,time) VALUES("냄새가 너어무 심해여10","gmlrjs9503@gmail.com","제주도서부앞바다",'2019-05-23');

@@ -5,7 +5,7 @@ var moment = require('moment');
 /* GET users listing. */
 router.get('/', function(req, res, next) {
   console.log('weather start!');
-  console.log(moment().format("YYYYMMDD")) 
+  console.log(moment().format("YYYYMMDD")) ;
   var qs ='ServiceKey=eYOi57KhdUa3ajQmj%2BfrHhSxQs%2BrC9i534EuIPH4FURXXIHo%2FmeS75vQk3I5u9m%2FmAeS%2BQsqGUbVfinOKsHOLg%3D%3D'
           +'&base_date='+moment().format("YYYYMMDD")
           +'&base_time=0500'
@@ -21,6 +21,11 @@ router.get('/', function(req, res, next) {
   
   console.log(obj.response.header.resultMsg);
   });
+
+});
+
+router.get('/list', function(req, res, next) {
+  
 
 });
 

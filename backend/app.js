@@ -3,8 +3,23 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-// var indexRouter = require('./routes/index');
+var CronJob = require('cron').CronJob;
+var moment = require('moment');
+var fs = require('fs');
+var mysql = require('mysql');
+var db = require('./DB_config');
+
+var con = mysql.createConnection({
+  host: db.host,
+  user: db.user,
+  password: db.password,
+  database: db.database
+})
+
+var pigRouter = require('./routes/pig');
+var reportRouter = require('./routes/report');
 var weatherRouter = require('./routes/weather');
+var waterRouter = require('./routes/water');
 
 var app = express();
 app.io = require('socket.io')();
@@ -19,8 +34,11 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// app.use('/', indexRouter);
+app.use('/water', waterRouter);
 app.use('/weather', weatherRouter);
+app.use('/report', reportRouter);
+app.use('/pig', pigRouter);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -38,9 +56,32 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-/* socket io */
+// 매일 7시에 전날 측정치를 통해 기준치 설정
+new CronJob('0 0 7 * * *', function() {
 
+  sql = "SELECT iot_ID, AVG(turbidity)"+
+        "FROM water " +
+        "WHERE time >=? and " +
+               "time <? " +
+        "GROUP BY iot_ID" ;
+
+  con.query(sql,[moment().subtract(1,'days').format("YYYYMMDD")],function(error,results){
+    if(error) throw error;
+    else{
+      results.forEach(element => {
+        fs.writeFileSync('/'+moment()+'/'+element.iot_ID,element.turbidity,'utf8');
+      });
+    }
+  });
+  
+
+});
+
+/* socket io */
 app.io.on('connection', function(socket) {
+  /*
+   블록체인의 값을 읽어와서 해당값이 기준치를 초과하면 client에 전송
+  */
   console.log("socket connect!!");
   console.log(socket);
 });
