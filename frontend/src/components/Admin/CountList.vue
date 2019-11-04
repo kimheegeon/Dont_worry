@@ -119,7 +119,7 @@ export default {
       if(this.end_date !== ""){
         this.end_date = moment(this.end_date).format("YYYY-MM-DD 23:59:59")
       }
-      axios.post('/', {
+      axios.get('http://127.0.0.1:3000/pig/count', {
         FREE_WORD: this.keyword,
         START_DATE: this.start_date,
         END_DATE:this.end_date,

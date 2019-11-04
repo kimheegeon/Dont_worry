@@ -99,7 +99,7 @@ export default {
     }
   },
   created: function() {
-    var socket = io.connect('http://localhost:3001')
+    var socket = io.connect('http://localhost:3000')
     var userInput = 'asdsd'
     socket.emit('message', { message: userInput })
 

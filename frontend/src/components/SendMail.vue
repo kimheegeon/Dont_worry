@@ -71,7 +71,7 @@ export default {
       }
       var self = this
       //메일 송신 api 호출
-      axios.post('/', {
+      axios.get('http://127.0.0.1:3000/report/SendMail', {
         LOCATION: this.Location,
         CONTENTS: this.Contents,
         MAIL_ADDRESS: this.MAILADDRESS

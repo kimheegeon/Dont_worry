@@ -66,7 +66,7 @@ export default {
       start_date:"",
       end_date:"",
       AlertedList: [
-       { 
+      /* { 
         AREA: '제주 한림읍 225', 
         CONTENTS: '지하수 상태 좋음이라는데 냄새가 너무 심해요..지하수 상태 좋음이라는데 냄새가 너무 심해요..지하수 상태 좋음이라는데 냄새가 너무 심해요..지하수 상태 좋음이라는데 냄새가 너무 심해요..지하수 상태 좋음이라는데 냄새가 너무 심해요..지하수 상태 좋음이라는데 냄새가 너무 심해요..지하수 상태 좋음이라는데 냄새가 너무 심해요..지하수 상태 좋음이라는데 냄새가 너무 심해요..',
         USER: 'yyy@gmail.com',
@@ -89,7 +89,7 @@ export default {
         CONTENTS: '앱이 안움직여요',
         USER: 'yyy@gmail.com',
         DATE: '2019/10/28'
-       }
+       }*/
       ],
       offset: 0,
       limit: 10,
@@ -125,7 +125,7 @@ export default {
       if(this.end_date !== ""){
         this.end_date = moment(this.end_date).format("YYYY-MM-DD 23:59:59")
       }
-      axios.post('/', {
+      axios.get('http://127.0.0.1:3000/report/alertList', {
         FREE_WORD: this.keyword,
         START_DATE: this.start_date,
         END_DATE:this.end_date,

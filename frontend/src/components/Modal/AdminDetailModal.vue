@@ -76,7 +76,7 @@ export default {
   props: ['current_no', 'address', 'search_date'],
   methods: {
     getWaterDetail: function() {
-      axios.post('/', {
+      axios.get('http://127.0.0.1:3000/water/WaterDetail', {
         Number: this.current_no,
         AREA: this.address,
         DATE: this.search_date

@@ -67,7 +67,8 @@ export default {
       keyword: "",
       start_date:"",
       end_date:"",
-      WaterQList: [
+      WaterQList:[],
+      /*WaterQList: [
        {
         Number:1,
         AREA: '제주 한림읍 225', 
@@ -98,7 +99,7 @@ export default {
         WATERQ: '정상 범위내',
         DATE: '2019/10/28'
        }
-      ],
+      ],*/
       offset: 0,
       limit: 10,
       totalPage: 0,
@@ -138,7 +139,7 @@ export default {
       if(this.end_date !== ""){
         this.end_date = moment(this.end_date).format("YYYY-MM-DD 23:59:59")
       }
-      axios.post('/', {
+      axios.post('http://127.0.0.1:3000/water/WaterQList', {
         FREE_WORD: this.keyword,
         START_DATE: this.start_date,
         END_DATE:this.end_date,

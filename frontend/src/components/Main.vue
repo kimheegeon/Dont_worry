@@ -33,7 +33,7 @@ export default {
   data(){
     return {
       WaterQ: 3,
-      location:"제주시 한림읍 225",
+      location:"",
       lat:'',
       lng:'',
       showModalError: false,
@@ -53,7 +53,7 @@ export default {
     checkWaterQ: function() {
       var self = this
       //수질 확인 api 호출
-      axios.post('/', {
+      axios.get('http://127.0.0.1:3000/water/checkWaterQ', {
         LONGITUDE: this.lng,
         LATITUDE: this.lat,
       })
@@ -61,8 +61,9 @@ export default {
         //호출 성공시
         if(response.data.STATUS_CODE == '00'){
           //수질데이터 값 로컬 저장 및 화면변경
-          // this.WaterQ = response.data.WaterQ
-          // this.$store.commit('auth/setWaterQ',this.WaterQ)
+          this.WaterQ = response.data.WaterQ
+          this.location = response.data.location
+          this.$store.commit('auth/setWaterQ',this.WaterQ)
         } else {
           this.modalErrTitle = '수질데이터 확인 실패'
           this.modalErrMessage = '수질데이터 확인에 실패했습니다.'
@@ -85,10 +86,7 @@ export default {
           lng: position.coords.longitude
         };
         console.log('location',self.center)
-        // if(load_map)
-        // {
-        //   self.checkWaterQ()
-        // }
+        self.checkWaterQ()
       },
       error => {
         if(self.position_error_flg == false)
@@ -111,16 +109,11 @@ export default {
           self.showModalError = true
           self.position_error_flg = true
         }
-        // if(load_map)
-        // {
-        //   self.checkWaterQ()
-        // }
       }
       );
     },
   },
   created() {
-    // this.checkWaterQ()
     this.geolocate()
     this.setWaterQ(this.WaterQ)
     console.log('WaterQ',this.WaterQ)
