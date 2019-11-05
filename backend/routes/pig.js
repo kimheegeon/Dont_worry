@@ -15,7 +15,7 @@ router.get('/count', function (req, res, next) {
   var START_DATE = req.query.START_DATE;
   var END_DATE = req.query.END_DATE;
   var STATUS_CODE = "00";
-  var sql = "SELECT ir.iot_ID , ir.address, p.pig " +
+  var sql = "SELECT ir.iot_ID iot_ID, ir.address AREA, p.pig COUNT " +
             "FROM IoT_RFID ir, pig p " +
             "WHERE ir.address like ? and " +
                   "p.time >= ? and " +

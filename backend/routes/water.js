@@ -32,7 +32,7 @@ router.get('/checkWaterQ',function(req, res, next){
     address = "제주"; // 하드코딩
 
 
-    var sql =   "SELECT iw.iot_ID , iw.address, w.turbidity "+
+    var sql =   "SELECT iw.iot_ID , iw.address , w.turbidity "+
                 "FROM IoT_water iw, water w " +
                 "WHERE iw.address = ? and " +
                        "iw.iot_ID = w.iot_ID "
@@ -52,6 +52,8 @@ router.get('/checkWaterQ',function(req, res, next){
             var data = Object();
             data.STATUS_CODE = STATUS_CODE;
             data.WaterQ = waterQ;
+            
+            //바꿔야함
             data.location = address;
     
             res.json(JSON.stringify(data));
@@ -66,7 +68,7 @@ router.get('/WaterDetail',function(req, res, next){
     var AREA = req.query.AREA;
     var DATE = req.query.DATE;
     var STATUS_CODE = "00";
-    var sql =   "SELECT iw.iot_ID , iw.address, w.turbidity, w.trans "+
+    var sql =   "SELECT iw.iot_ID, w.turbidity Turbidity, w.trans transaction "+
                 "FROM IoT_water iw, water w "+
                 "WHERE iw.address = ? and " + 
                 "iw.iot_ID = w.iot_ID and " + 
@@ -77,10 +79,6 @@ router.get('/WaterDetail',function(req, res, next){
             throw error;
         }  
         else {
-            console.log(sql);
-            console.log(DATE);
-            console.log(AREA);
-            console.log(results);
             var result = new Object();
         
             result.STATUS_CODE = STATUS_CODE;
@@ -99,7 +97,8 @@ router.get('/WaterQList',function(req, res, next){
     var END_DATE = req.query.END_DATE;
     var STATUS_CODE = "00";
     var WaterQList;
-    var sql =   "SELECT iw.iot_ID , iw.address, w.waterq " +
+
+    var sql =   "SELECT iw.iot_ID , iw.address AREA, w.waterq WATERQ " +
                 "FROM IoT_water iw, water w " +
                 "WHERE iw.address like ? and " +
                        "iw.iot_ID = w.iot_ID and " +
