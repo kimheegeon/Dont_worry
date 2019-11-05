@@ -8,16 +8,22 @@ import BootstrapVue from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import store from './store'
+import axios from 'axios'
+// import socket from 'socket.io'
 
 Vue.config.productionTip = false
 Vue.use(BootstrapVue)
 Vue.use(Vuex)
 Vue.use(store)
+Vue.$http = axios
+// Vue.use(socket)
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
   store,
+  // socket,
   components: { App },
   template: '<App/>',
   data: {
