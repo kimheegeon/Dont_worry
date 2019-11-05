@@ -4,11 +4,11 @@ var moment = require('moment');
 var mysql = require('mysql');
 var db = require('../DB_config');
 var con = mysql.createConnection({
-    host: db.host,
-    user: db.user,
-    password: db.password,
-    database: db.database
-  })
+  host: db.host,
+  user: db.user,
+  password: db.password,
+  database: db.database
+})
 
 /* GET home page. */
 router.get('/alertList', function (req, res, next) {
@@ -17,12 +17,14 @@ router.get('/alertList', function (req, res, next) {
   var END_DATE = req.query.END_DATE;
   var STATUS_CODE = 00;
 
-  var sql = "SELECT comments CONTENTS, mail USER, time DATE ,address AREA"+
-            "FROM report "+
-            "WHERE address like ? and "+ 
-            "time >= ? and "+ 
-            "time <= ? "
-  con.query(sql, ["%"+FREE_WORD+"%", START_DATE, END_DATE], function (error, results) {
+  var sql = "SELECT comments CONTENTS, mail USER, time DATE ,address AREA" +
+            "FROM report " +
+            "WHERE 1=1 ";
+  if (FREE_WORD) sql += `and ir.address like '%${FREE_WORD}%' `;
+  if (START_DATE) sql += `and p.time >= '${START_DATE}' `;
+  if (END_DATE) sql += `and p.time <= '${END_DATE}'`;
+
+  con.query(sql, function (error, results) {
     if (error) {
       STATUS_CODE = 90;
       throw error;
@@ -30,7 +32,7 @@ router.get('/alertList', function (req, res, next) {
     else {
       console.log(results);
       var result = new Object();
-    
+
       result.STATUS_CODE = STATUS_CODE;
       result.AlertedList = results;
       res.json(JSON.stringify(result));
@@ -47,7 +49,7 @@ router.get('/SendMail', function (req, res, next) {
   var STATUS_CODE = "00";
 
   var sql = "INSERT INTO report(comments, mail, address, time) VALUES(?,?,?,?)";
-  con.query(sql, [CONTENTS, MAIL, LOCATION, moment().format("YYYY-MM-DD HH:mm:ss") ], function (error, results) {
+  con.query(sql, [CONTENTS, MAIL, LOCATION, moment().format("YYYY-MM-DD HH:mm:ss")], function (error, results) {
     if (error) {
       STATUS_CODE = "90";
       throw error;

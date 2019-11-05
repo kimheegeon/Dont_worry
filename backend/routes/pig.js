@@ -17,11 +17,15 @@ router.get('/count', function (req, res, next) {
   var STATUS_CODE = "00";
   var sql = "SELECT ir.iot_ID iot_ID, ir.address AREA, p.pig COUNT " +
             "FROM IoT_RFID ir, pig p " +
-            "WHERE ir.address like ? and " +
-                  "p.time >= ? and " +
-                  "p.time <= ? and " +
-                  "ir.iot_ID = p.iot_ID ";
-  con.query(sql, ["%"+FREE_WORD+"%", START_DATE, END_DATE], function (error, results) {
+            "WHERE ir.iot_ID = p.iot_ID ";
+  
+  if(FREE_WORD)   sql+=`and ir.address like '%${FREE_WORD}%' `;
+  if(START_DATE)  sql+=`and p.time >= '${START_DATE}' `;
+  if(END_DATE)    sql+=`and p.time <= '${END_DATE}' `;
+
+  console.log(sql);
+
+  con.query(sql, function (error, results) {
     if (error) {
       STATUS_CODE = "90";
       throw error;
