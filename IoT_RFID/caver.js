@@ -18,7 +18,14 @@ const caver = {
     accessType : 'keystore'
   },
   start: async function () {
-    caver.handleLogin();
+    if(!auth.complete){
+      caver.handleLogin();
+      auth.complete = true;
+    }
+    else{
+      caver.putPigCnt();
+    }
+    
   },
 
   handleLogin: async function () {
@@ -27,8 +34,8 @@ const caver = {
         const privateKey = cav.klay.accounts.decrypt(auth.keystore, auth.password).privateKey;
         this.integrateWallet(privateKey);
         caver.putPigCnt();
-      } catch (e){
-        console.log("handleLogin error : ", error);
+      } catch (error){
+        console.log("error : ", error);
       }
     }
   },
