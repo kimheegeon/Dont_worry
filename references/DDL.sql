@@ -42,7 +42,8 @@ CREATE TABLE IoT_water (
 CREATE TABLE pig (
 	iot_ID INTEGER NULL , -- 기기번호
 	pig    INTEGER NULL, -- 돼지수
-	time   DATE    NULL  -- 등록날짜
+	time   DATE    NULL,  -- 등록날짜
+	tx_hash VARCHAR(150) NULL -- 트랜잭션 해쉬값
 );
 
 -- 새 테이블2
@@ -51,7 +52,7 @@ CREATE TABLE water (
 	turbidity   INTEGER      NULL, -- 탁도
 	time        DATE         NULL, -- 등록시간
 	waterq      DOUBLE       NULL, -- 탁도/기준치
-	trans VARCHAR(256) NULL  -- 블록번호
+	tx_hash VARCHAR(150) NULL  -- 트랜잭션 해쉬값
 );
 
 -- 새 테이블
