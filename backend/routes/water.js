@@ -35,7 +35,7 @@ router.get('/checkWaterQ', function (req, res, next) {
     var sql = "SELECT iw.iot_ID , iw.address , w.turbidity " +
               "FROM IoT_water iw, water w " +
               "WHERE iw.address = ? and " +
-              "iw.iot_ID = w.iot_ID "
+                    "iw.iot_ID = w.iot_ID "
 
     con.query(sql, [address], function (error, results) {
         if (error) {
@@ -108,8 +108,8 @@ router.get('/WaterQList', function (req, res, next) {
                 "WHERE iw.iot_ID = w.iot_ID ";
 
     if (FREE_WORD)  sql += `and ir.address like '%${FREE_WORD}%' `;
-    if (START_DATE) sql += `and p.time >= '${START_DATE}' `;
-    if (END_DATE)   sql += `and p.time <= '${END_DATE}'`;
+    if (START_DATE) sql += `and w.time >= '${START_DATE}' `;
+    if (END_DATE)   sql += `and w.time <= '${END_DATE}' `;
 
     con.query(sql, ['%' + FREE_WORD + '%', START_DATE, END_DATE], function (error, results) {
         if (error) {

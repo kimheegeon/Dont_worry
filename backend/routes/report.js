@@ -17,12 +17,12 @@ router.get('/alertList', function (req, res, next) {
   var END_DATE = req.query.END_DATE;
   var STATUS_CODE = 00;
 
-  var sql = "SELECT comments CONTENTS, mail USER, time DATE ,address AREA" +
+  var sql = "SELECT comments CONTENTS, mail USER, time DATE ,address AREA " +
             "FROM report " +
             "WHERE 1=1 ";
-  if (FREE_WORD) sql += `and ir.address like '%${FREE_WORD}%' `;
-  if (START_DATE) sql += `and p.time >= '${START_DATE}' `;
-  if (END_DATE) sql += `and p.time <= '${END_DATE}'`;
+  if (FREE_WORD)  sql += `and ir.address like '%${FREE_WORD}%' `;
+  if (START_DATE) sql += `and time >= '${START_DATE}' `;
+  if (END_DATE)   sql += `and time <= '${END_DATE}'`;
 
   con.query(sql, function (error, results) {
     if (error) {
