@@ -1,6 +1,5 @@
 const Caver = require('caver-js')
 const nconf = require('nconf')
-var moment = require('moment');
 var mysql = require('mysql');
 var db = require('./DB_config');
 
@@ -77,14 +76,12 @@ const caver = {
     .once('transactionHash', (txHash) => {
       console.log(`txHash: ${txHash}`);
 
-      sql = "INSERT INTO pig(iot_ID,pig,time,tx_hash) values(?,?,?,?)";
-      con.query(sql,[1, pigCount, moment().format("YYYYMMDD"), txHash],function(error,results){
+      sql = "INSERT INTO pig(iot_ID,pig,time,tx_hash) values(?,?,now(),?)";
+      con.query(sql,[1, pigCount, txHash],function(error,results){
         if(error) throw error;
       });
-
     });
-  },
-
+  }
 };
 
 module.exports = caver;
