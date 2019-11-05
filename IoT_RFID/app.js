@@ -8,6 +8,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
 var Caver = require('./caver');
+var rc522 = require("rc522");
 
 var app = express();
 
@@ -21,10 +22,30 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-cron.schedule('*/3 * * * *', function () {
-  
-  
+var authComplete = false;
+var list = [];
+var pigCnt = 0;
+cron.schedule('*/8 * * * * *', function () {
+  list = [];
+  if(!authComplete){
+    Caver.start(pigCnt);
+    authComplete = true;
+  }else{
+    Caver.putPigCnt(pigCnt);
+  }
+  pigCnt = 0;
 }).start();
+
+rc522(function(rfidSerialNumber){
+  console.log("List",list);
+  if(list.indexOf(rfidSerialNumber) >= 0){
+	//do nothing
+	console.log("already in!");
+  } else if(list.indexOf(rfidSerialNumber) == -1){
+	list.push(rfidSerialNumber);
+  }
+  pigCnt = list.length;
+});
 
 // app.use('/', indexRouter);
 // app.use('/users', usersRouter);

@@ -17,23 +17,23 @@ const caver = {
   auth: {
     accessType : 'keystore'
   },
-  start: async function () {
+  start: async function (pigCnt) {
     if(!auth.complete){
-      caver.handleLogin();
+      caver.handleLogin(pigCnt);
       auth.complete = true;
     }
     else{
-      caver.putPigCnt();
+      caver.putPigCnt(pigCnt);
     }
     
   },
 
-  handleLogin: async function () {
+  handleLogin: async function (pigCnt) {
     if(this.auth.accessType === 'keystore'){
       try{
         const privateKey = cav.klay.accounts.decrypt(auth.keystore, auth.password).privateKey;
         this.integrateWallet(privateKey);
-        caver.putPigCnt();
+        caver.putPigCnt(pigCnt);
       } catch (error){
         console.log("error : ", error);
       }
@@ -51,13 +51,14 @@ const caver = {
     cav.klay.accounts.wallet.add(walletInstance);
   },
 
-  putPigCnt: async function() {
+  putPigCnt: async function(pigCnt) {
     const walletInstance = this.getWallet();
     const time = new Date().toString();
     const rfidIP = '121.234.211.12';  //example ip address
-    const pigCount = '23'; //example pig cnt
+    const pigCount = '' + pigCnt;
+    console.log("pigCnt: ", pigCount);
     
-    agContract.methods.putPigCnt(rfidIP, pigCount, time).send({
+    await agContract.methods.putPigCnt(rfidIP, pigCount, time).send({
       from : walletInstance.address,
       gas : '250000',
     }, function(error, result){
