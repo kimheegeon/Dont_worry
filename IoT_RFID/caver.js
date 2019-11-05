@@ -76,10 +76,10 @@ const caver = {
     .once('transactionHash', (txHash) => {
       console.log(`txHash: ${txHash}`);
 
-      sql = "INSERT INTO pig(iot_ID,pig,time,tx_hash) values(?,?,now(),?)";
-      con.query(sql,[1, pigCount, txHash],function(error,results){
-        if(error) throw error;
-      });
+      //sql = "INSERT INTO pig(iot_ID,pig,time,tx_hash) values(?,?,now(),?)";
+      //con.query(sql,[1, pigCnt, txHash],function(error,results){
+       // if(error) throw error;
+      //});
     });
   }
 };

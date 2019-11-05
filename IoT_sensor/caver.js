@@ -1,4 +1,5 @@
 const Caver = require('caver-js')
+const moment = require('moment')
 
 const config = {
   rpcURL : 'https://api.baobab.klaytn.net:8651',
@@ -35,16 +36,16 @@ const caver = {
     password: 'test1234!'
   },
 
-  start: async function () {
-    caver.handleLogin();
+  start: async function (waterVal) {
+    caver.handleLogin(waterVal);
   },
 
-  handleLogin: async function () {
+  handleLogin: async function (waterVal) {
     if(this.auth.accessType === 'keystore'){
       try{
         const privateKey = cav.klay.accounts.decrypt(this.auth.keystore, this.auth.password).privateKey;
         this.integrateWallet(privateKey);
-        caver.addWaterDatas();
+        caver.addWaterDatas(waterVal);
       } catch (e){
         console.log("handleLogin error : ", error);
       }
@@ -62,13 +63,14 @@ const caver = {
     cav.klay.accounts.wallet.add(walletInstance);
   },
 
-  addWaterDatas: async function() {
+  addWaterDatas: async function(waterVal) {
     const walletInstance = await this.getWallet();
-    const date = new Date();
-    const nowTime = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
-    const nowDate = date.getYear().toString().slice(1,3) + (date.getMonth()+1) + date.getDate();
+    const nowTime = moment().format("HHmmss");
+    const nowDate = moment().format("YYMMDD");
     const waterIoTIP = '123.123.123.123'; //example ip address
-    const waterValue = '201'; //example water value
+    const waterValue = '' + waterVal;
+
+    console.log("waterVal: ",waterVal)
 
     agContract.methods.addWaterData(waterIoTIP, nowDate, waterValue, nowTime).send({
       from : walletInstance.address,
@@ -78,12 +80,13 @@ const caver = {
     })
     .once('transactionHash', (txHash) => {
       console.log(`txHash: ${txHash}`);
-    })
-    .once('receipt', (receipt) => {
-      console.log(`(#${receipt.blockNumber})`, receipt);
-    });
 
-    //여기서 수질 데이터와 시간, 날짜, txHash값을 데이터베이스에 저장해야한다.
+      //sql = "INSERT INTO water(iot_ID,turbidity,time,waterq,tx_hash) values(?,?,now(),?,?)";
+      //con.query(sql,[2,waterVal,40,txHash],function(error,results){
+       // if(error) throw error;
+      //});
+    });
+    
   },
 
 };

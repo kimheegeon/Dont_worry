@@ -8,6 +8,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
 var Caver = require('./caver');
+var mcpadc = require('mcp-spi-adc');
 
 var app = express();
 
@@ -40,6 +41,26 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-Caver.start();
+const tempSensor = mcpadc.open(6, err => {
+  if (err) throw err;
+  var authComplete = false;
+
+  setInterval(_ => {
+    tempSensor.read((err, reading) => {
+      if (err) throw err;
+      //console.log((reading.value * 3.3 - 0.5) * 100);
+	var value = reading.value * 100;
+	var value_round = Math.round(value);
+	console.log(value_round);
+	if(!authComplete){
+	  Caver.start(value_round);
+	  authComplete = true;
+	}
+        else{
+	  Caver.addWaterDatas(value_round);
+	}
+    });
+  }, 8000);
+});
 
 module.exports = app;
