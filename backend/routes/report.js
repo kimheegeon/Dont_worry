@@ -17,7 +17,7 @@ router.get('/alertList', function (req, res, next) {
   var END_DATE = req.query.END_DATE;
   var STATUS_CODE = 00;
 
-  var sql = "SELECT comments CONTENTS, mail USER, time DATE "+
+  var sql = "SELECT comments CONTENTS, mail USER, time DATE ,address AREA"+
             "FROM report "+
             "WHERE address like ? and "+ 
             "time >= ? and "+ 
@@ -32,7 +32,7 @@ router.get('/alertList', function (req, res, next) {
       var result = new Object();
     
       result.STATUS_CODE = STATUS_CODE;
-      result.WaterQList = results;
+      result.AlertedList = results;
       res.json(JSON.stringify(result));
     }
   });
@@ -46,22 +46,19 @@ router.get('/SendMail', function (req, res, next) {
   var MAIL = req.query.MAIL_ADDRESS;
   var STATUS_CODE = "00";
 
-  console.log(moment().format("YYYYMMDDHHmmss"));
-  var sql = "INSERT INTO report values(?,?,?,?)";
-  con.query(sql, [CONTENTS, MAIL, LOCATION, moment().format("YYYYMMDDHHmmss") ], function (error, results) {
+  var sql = "INSERT INTO report(comments, mail, address, time) VALUES(?,?,?,?)";
+  con.query(sql, [CONTENTS, MAIL, LOCATION, moment().format("YYYY-MM-DD HH:mm:ss") ], function (error, results) {
     if (error) {
       STATUS_CODE = "90";
       throw error;
     }
     else {
-      console.log(results);
-      WaterQList = results;
+      var result = new Object();
+      result.STATUS_CODE = STATUS_CODE;
+      res.json(JSON.stringify(result));
     }
   });
 
-  var result = new Object();
-  result.STATUS_CODE = STATUS_CODE;
-  res.json(JSON.stringify(result));
 
 });
 
