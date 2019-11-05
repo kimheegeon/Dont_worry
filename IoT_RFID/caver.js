@@ -1,5 +1,15 @@
 const Caver = require('caver-js')
 const nconf = require('nconf')
+var moment = require('moment');
+var mysql = require('mysql');
+var db = require('./DB_config');
+
+var con = mysql.createConnection({
+  host: db.host,
+  user: db.user,
+  password: db.password,
+  database: db.database
+})
 
 const config = {
   rpcURL : 'https://api.baobab.klaytn.net:8651',
@@ -66,9 +76,12 @@ const caver = {
     })
     .once('transactionHash', (txHash) => {
       console.log(`txHash: ${txHash}`);
-    })
-    .once('receipt', (receipt) => {
-      console.log(`(#${receipt.blockNumber})`, receipt);
+
+      sql = "INSERT INTO pig(iot_ID,pig,time,tx_hash) values(?,?,?,?)";
+      con.query(sql,[1, pigCount, moment().format("YYYYMMDD"), txHash],function(error,results){
+        if(error) throw error;
+      });
+
     });
   },
 
