@@ -31,7 +31,7 @@
                 <td v-for="(value, key, index) in columns" :key="index">
                     <p v-if="key=='AREA'">{{ data[key] }}</p>
                     <p v-if="key=='COUNT'">{{ data[key] }}</p>
-                    <p v-if="key=='DATE'">{{ data[key] | moment("YYYY-MM-DD HH:mm:ss") }}</p>
+                    <!-- <p v-if="key=='DATE'">{{ data[key] | moment("YYYY-MM-DD HH:mm:ss") }}</p> -->
                 </td>
                 </tr>
             </table>
@@ -48,6 +48,7 @@ import AdminBaseModal from '../Modal/AdminBaseModal'
 import Datepicker from 'vuejs-datepicker'
 import moment from 'moment'
 import 'moment/locale/ko'
+import axios from 'axios'
 
 var DATE_FORMAT = "LL"
 
@@ -58,13 +59,13 @@ export default {
       columns: {
         AREA: '양돈가 위치',
         COUNT: '사육두수',
-        DATE: '날짜'
+        // DATE: '날짜'
       },
       keyword: "",
       start_date:"",
       end_date:"",
       CountList: [
-       { 
+       /*{ 
         AREA: '한림1가 양돈가', 
         COUNT: '2590',
         DATE: '2019/10/28'
@@ -83,7 +84,7 @@ export default {
         AREA: '한림4가 양돈가', 
         COUNT: '2800',
         DATE: '2019/10/28'
-       },
+       },*/
       ],
       offset: 0,
       limit: 10,
@@ -100,7 +101,7 @@ export default {
      'datepicker': Datepicker
   },
   created: function() {
-
+    this.getCountList()
   },
   mounted() {
     var area = document.getElementById('start_date')
@@ -120,19 +121,25 @@ export default {
         this.end_date = moment(this.end_date).format("YYYY-MM-DD 23:59:59")
       }
       axios.get('http://127.0.0.1:3000/pig/count', {
-        FREE_WORD: this.keyword,
-        START_DATE: this.start_date,
-        END_DATE:this.end_date,
-        LIMIT: this.limit,
-        OFFSET: this.offset,
+        params:{
+          FREE_WORD: this.keyword,
+          START_DATE: '2019-05-05',
+          END_DATE:'2019-11-07'
+          // START_DATE: this.start_date,
+          // END_DATE:this.end_date,
+          // LIMIT: this.limit,
+          // OFFSET: this.offset,
+        }
       }).then(response => {
+        var res = JSON.parse(response.data)
+        console.log(res)
         //로딩표시 제거
         this.loadingFlag = false
-        if(response.data.STATUS_CODE == '00'){
-          if(Object.keys(response.data.CountList).length > 0){
-            this.CountList = response.data.CountList;
-            this.totalPage = Math.ceil(response.data.CountList_COUNT / this.limit) //신고데이터 총 갯수 서버에서 획득
-            this.offset = this.offset + this.limit
+        if(res.STATUS_CODE == '00'){
+          if(Object.keys(res.CountList).length > 0){
+            this.CountList = res.CountList
+            // this.totalPage = Math.ceil(response.data.CountList_COUNT / this.limit) //신고데이터 총 갯수 서버에서 획득
+            // this.offset = this.offset + this.limit
           } else {
             this.CountList = []
             this.totalPage = 0

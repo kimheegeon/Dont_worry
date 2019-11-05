@@ -27,8 +27,8 @@
                     {{ value }}
                 </th>
                 </tr>
-                <tr v-for="data in AlertedList" :key="data.value">
-                <td v-for="(value, key, index) in columns" :key="index">
+                <tr v-for="(data, index) in AlertedList" :key="index">
+                <td v-for="(value, key) in columns" :key="key">
                     <p v-if="key=='AREA'">{{ data[key] }}</p>
                     <p v-if="key=='CONTENTS'">{{ data[key] }}</p>
                     <p v-if="key=='USER'">{{ data[key] }}</p>
@@ -49,6 +49,7 @@ import AdminBaseModal from '../Modal/AdminBaseModal'
 import Datepicker from 'vuejs-datepicker'
 import moment from 'moment'
 import 'moment/locale/ko'
+import axios from 'axios'
 
 var DATE_FORMAT = "LL"
 
@@ -106,7 +107,7 @@ export default {
      'datepicker': Datepicker
   },
   created: function() {
-
+    this.getAlertedList()
   },
   mounted() {
     var area = document.getElementById('start_date')
@@ -126,19 +127,25 @@ export default {
         this.end_date = moment(this.end_date).format("YYYY-MM-DD 23:59:59")
       }
       axios.get('http://127.0.0.1:3000/report/alertList', {
-        FREE_WORD: this.keyword,
-        START_DATE: this.start_date,
-        END_DATE:this.end_date,
-        LIMIT: this.limit,
-        OFFSET: this.offset,
+        params:{
+          FREE_WORD: this.keyword,
+          START_DATE: '2019-05-05',
+          END_DATE:'2019-11-07'
+          // START_DATE: this.start_date,
+          // END_DATE:this.end_date,
+          // LIMIT: this.limit,
+          // OFFSET: this.offset,
+        }
       }).then(response => {
+        var res = JSON.parse(response.data)
+        console.log(res)
         //로딩표시 제거
         this.loadingFlag = false
-        if(response.data.STATUS_CODE == '00'){
-          if(Object.keys(response.data.AlertedList).length > 0){
-            this.AlertedList = response.data.AlertedList;
-            this.totalPage = Math.ceil(response.data.AlertedList_COUNT / this.limit) //신고데이터 총 갯수 서버에서 획득
-            this.offset = this.offset + this.limit
+        if(res.STATUS_CODE == '00'){
+          if(Object.keys(res.AlertedList).length > 0){
+            this.AlertedList = res.AlertedList;
+            // this.totalPage = Math.ceil(res.AlertedList_COUNT / this.limit) //신고데이터 총 갯수 서버에서 획득
+            // this.offset = this.offset + this.limit
           } else {
             this.AlertedList = []
             this.totalPage = 0

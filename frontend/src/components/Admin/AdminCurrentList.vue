@@ -27,12 +27,12 @@
                     {{ value }}
                 </th>
                 </tr>
-                <tr v-for="data in WaterQList" :key="data.value">
-                <td v-for="(value, key, index) in columns" :key="index">
-                    <p v-if="key=='Number'">{{ data[key] }}</p>
-                    <p v-if="key=='AREA'" @click="ShowWaterQ(data['Number'],data['AREA'],data['DATE'])">{{ data[key] }}</p>
-                    <p v-if="key=='WATERQ'" @click="ShowWaterQ(data['Number'],data['AREA'],data['DATE'])">{{ data[key] }}</p>
-                    <p v-if="key=='DATE'" @click="ShowWaterQ(data['Number'],data['AREA'],data['DATE'])">{{ data[key] | moment("YYYY-MM-DD HH:mm:ss") }}</p>
+                <tr v-for="(data, index) in WaterQList" :key="index">
+                <td v-for="(value, key) in columns" :key="key">
+                    <!-- <p v-if="key=='Number'">{{ data[key] }}</p> -->
+                    <p v-if="key=='AREA'" @click="ShowWaterQ(data['AREA'],data['DATE'])">{{ data[key] }}</p>
+                    <p v-if="key=='WATERQ'" @click="ShowWaterQ(data['AREA'],data['DATE'])">{{ data[key] }}</p>
+                    <p v-if="key=='DATE'" @click="ShowWaterQ(data['AREA'],data['DATE'])">{{ data[key] | moment("YYYY-MM-DD HH:mm:ss") }}</p>
                 </td>
                 </tr>
             </table>
@@ -51,6 +51,7 @@ import AdminDetailModal from '../Modal/AdminDetailModal'
 import Datepicker from 'vuejs-datepicker'
 import moment from 'moment'
 import 'moment/locale/ko'
+import axios from 'axios'
 
 var DATE_FORMAT = "LL"
 
@@ -59,7 +60,7 @@ export default {
   data() {
     return {
       columns: {
-        Number:'NO.',
+        // Number:'NO.',
         AREA: '지역',
         WATERQ: '수질 데이터',
         DATE: '날짜 및 날씨 정보'
@@ -120,7 +121,7 @@ export default {
      'datepicker': Datepicker
   },
   created: function() {
-
+    this.getWaterQList()
   },
   mounted() {
     var area = document.getElementById('start_date')
@@ -139,20 +140,28 @@ export default {
       if(this.end_date !== ""){
         this.end_date = moment(this.end_date).format("YYYY-MM-DD 23:59:59")
       }
-      axios.post('http://127.0.0.1:3000/water/WaterQList', {
-        FREE_WORD: this.keyword,
-        START_DATE: this.start_date,
-        END_DATE:this.end_date,
-        LIMIT: this.limit,
-        OFFSET: this.offset,
-      }).then(response => {
+      axios.get('http://127.0.0.1:3000/water/WaterQList', {
+        params:{
+          FREE_WORD: this.keyword,
+          START_DATE: '2019-05-05',
+          END_DATE:'2019-11-07',
+          // START_DATE: this.start_date,
+          // END_DATE:this.end_date,
+          // LIMIT: this.limit,
+          // OFFSET: this.offset,
+        },
+      }
+      ).then(response => {
+        var res = JSON.parse(response.data)
+        console.log(res)
         //로딩표시 제거
         this.loadingFlag = false
-        if(response.data.STATUS_CODE == '00'){
-          if(Object.keys(response.data.WaterQList).length > 0){
-            this.WaterQList = response.data.WaterQList;
-            this.totalPage = Math.ceil(response.data.WaterQList_COUNT / this.limit) //수질데이터 총 갯수 서버에서 획득
-            this.offset = this.offset + this.limit
+        if(res.STATUS_CODE == '00'){
+          if(Object.keys(res.WaterQList).length > 0){
+            this.WaterQList = res.WaterQList
+            console.log(this.WaterQList)
+            // this.totalPage = Math.ceil(res.WaterQList_COUNT / this.limit) //수질데이터 총 갯수 서버에서 획득
+            // this.offset = this.offset + this.limit
           } else {
             this.WaterQList = []
             this.totalPage = 0
@@ -180,8 +189,8 @@ export default {
     setDateFormat(date) {
       return moment(date).format(DATE_FORMAT);
     },
-    ShowWaterQ(number, address, date) {
-      this.current_no = number
+    ShowWaterQ(address, date) {
+      // this.current_no = number
       this.address = address
       this.search_date = date
       this.showModalDetail = true

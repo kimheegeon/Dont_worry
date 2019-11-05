@@ -34,7 +34,7 @@
               <tr>
                 <th>탁도</th>
                 <td>
-                  <input type="text" v-model="WaterDetail.Con" />
+                  <input type="text" v-model="WaterDetail.Turbidity" />
                 </td>
               </tr>
               <tr>
@@ -60,6 +60,7 @@
 <script>
 import AdminBaseModal from '../Modal/AdminBaseModal'
 import { mapMutations } from 'vuex'
+import axios from 'axios'
 
 export default {
   components: {
@@ -73,16 +74,20 @@ export default {
       modalErrMessage: ''
     }
   },
-  props: ['current_no', 'address', 'search_date'],
+  props: ['address', 'search_date'],
   methods: {
     getWaterDetail: function() {
       axios.get('http://127.0.0.1:3000/water/WaterDetail', {
-        Number: this.current_no,
-        AREA: this.address,
-        DATE: this.search_date
+        params:{
+          // Number: this.current_no,
+          AREA: this.address,
+          DATE: this.search_date
+        }
       }).then(response => {
-        if (response.data.STATUS_CODE == '00') {
-          this.WaterDetail = response.data.WaterDetail
+        var res = JSON.parse(response.data)
+        console.log(res)
+        if (res.STATUS_CODE == '00') {
+          this.WaterDetail = res.WaterDetail
         } else {
           this.modalErrTitle = '수질 상세내역 획득 실패'
           this.modalErrMessage = '수질 상세내역 획득에 실패했습니다.'
@@ -95,8 +100,8 @@ export default {
     },
   },
   created() {
-      //this.getWaterDetail()
-      this.WaterDetail.Number = this.current_no
+      this.getWaterDetail()
+      // this.WaterDetail.Number = this.current_no
       this.WaterDetail.AREA = this.address
       this.WaterDetail.DATE = this.search_date
   },

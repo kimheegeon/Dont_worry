@@ -35,6 +35,7 @@
 import Nav from '../../src/components/Layout/Nav'
 import BaseModal from './Modal/BaseModal'
 import { mapMutations,mapGetters } from 'vuex'
+import axios from 'axios'
 
 export default {
   name: 'SendMail',
@@ -61,6 +62,8 @@ export default {
   mounted() {
   },
   created() {
+    this.Location = this.$store.getters['auth/location']
+    this.resetContent()
   },
   computed: {
   },
@@ -72,19 +75,23 @@ export default {
       var self = this
       //메일 송신 api 호출
       axios.get('http://127.0.0.1:3000/report/SendMail', {
-        LOCATION: this.Location,
-        CONTENTS: this.Contents,
-        MAIL_ADDRESS: this.MAILADDRESS
+        params:{
+          LOCATION: this.Location,
+          CONTENTS: this.Contents,
+          MAIL_ADDRESS: this.MAILADDRESS
+        }
       })
       .then(response => {
+        var res = JSON.parse(response.data)
+        console.log(res)
         //호출 성공시
-        if(response.data.STATUS_CODE == '00'){
+        if(res.STATUS_CODE == '00'){
           this.modalErrTitle = '정상처리'
           this.modalErrMessage = '소중한 의견이 접수되었습니다.'
           this.showModalError = true
-          this.$router.push({
-            path: '/sendmail'
-          })
+          // this.$router.push({
+          //   path: '/Main'
+          // })
         } else {
           this.modalErrTitle = '전송실패'
           this.modalErrMessage = '전송이 실패했습니다.'
@@ -133,6 +140,10 @@ export default {
       } else {
         return true;
       }
+    },
+    resetContent: function() {
+      this.Contents = '';
+      this.MAILADDRESS = '';
     }
   },
 }

@@ -99,21 +99,21 @@ export default {
     }
   },
   created: function() {
-    var socket = io.connect('http://localhost:3000')
-    var userInput = 'asdsd'
-    socket.emit('message', { message: userInput })
+    // var socket = io.connect('http://localhost:3000')
+    // var userInput = 'asdsd'
+    // socket.emit('message', { message: userInput })
 
-    var self = this
-    socket.on('echo', function (data) {
-      self.Waterdata = data['message']
-      if(self.Waterdata !==''){
-        console.log("messageIsNotNull",self.Waterdata)
-        self.ShowAlert(true)
-      } else {
-        console.log("messageIsNull")
-        self.ShowAlert(false)
-      }
-    })
+    // var self = this
+    // socket.on('echo', function (data) {
+    //   self.Waterdata = data['message']
+    //   if(self.Waterdata !==''){
+    //     console.log("messageIsNotNull",self.Waterdata)
+    //     self.ShowAlert(true)
+    //   } else {
+    //     console.log("messageIsNull")
+    //     self.ShowAlert(false)
+    //   }
+    // })
   },
   updated() {
   },
