@@ -88,15 +88,23 @@ app.io.on('connection', function(socket) {
   /*
    블록체인의 값을 읽어와서 해당값이 기준치를 초과하면 client에 전송
   */
-  app.get("/alert",function (req, res, next) {
-    console.log(req.query);
-    var alert = req.query;
-    app.io.emit("alert",JSON.stringify(alert));
-  });
+  // app.get("/alert",function (req, res, next) {
+  //   console.log(req.query);
+  //   var alert = req.query;
+  //   app.io.emit("alert",JSON.stringify(alert));
+  // });
 
-  
   console.log("socket connect!!");
   console.log(socket);
+  
+  var waterV = ['320','322','322','324','276','58','12','11','11','10','12','11','11','10','12','11','11','10','11','12','12','10','12','11', '11','10','12','12','12','10','12','11','11','10','12','12','12','10'];
+  
+  waterV.forEach(element=>{
+    if(element<=150){
+      app.io.emit("alert",JSON.stringify(alert));
+    }
+  })
+  
 });
 
 module.exports = app;
