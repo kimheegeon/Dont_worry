@@ -12,7 +12,7 @@
               <div v-if="errLocation" class="invalid-feedback">{{ errMsgLocation }}</div>
             </div>
             <div class="form-group form-area required">
-              <label for="TextContent">신고 내용</label>
+              <label for="TextContent" class="content">신고 내용</label>
               <input class="form-control-contents" v-bind:class="{ 'is-invalid': errContent }"  placeholder="신고내용(지역, 날짜, 상세내역)" v-model="Contents">
               <div v-if="errContent" class="invalid-feedback">{{ errMsgContent }}</div>
             </div>
@@ -26,6 +26,8 @@
         </div>
       </div>
     </main>
+  <!-- 성공 모달 -->
+  <ErrorModal v-if="showModal" @close="closeModal" :title="modalTitle" :message="modalMessage"></ErrorModal>
   <!-- 에러 모달 -->
   <ErrorModal v-if="showModalError" @close="showModalError = false" :title="modalErrTitle" :message="modalErrMessage"></ErrorModal>
   </div>
@@ -52,7 +54,10 @@ export default {
       errMsgMailAddress: '',
       showModalError: false,
       modalErrTitle: '',
-      modalErrMessage: ''
+      modalErrMessage: '',
+      showModal: false,
+      modalTitle: '',
+      modalMessage: ''
     };
   },
   components: {
@@ -86,12 +91,9 @@ export default {
         console.log(res)
         //호출 성공시
         if(res.STATUS_CODE == '00'){
-          this.modalErrTitle = '정상처리'
-          this.modalErrMessage = '소중한 의견이 접수되었습니다.'
-          this.showModalError = true
-          // this.$router.push({
-          //   path: '/Main'
-          // })
+          this.modalTitle = '정상처리'
+          this.modalMessage = '소중한 의견이 접수되었습니다.'
+          this.showModal = true
         } else {
           this.modalErrTitle = '전송실패'
           this.modalErrMessage = '전송이 실패했습니다.'
@@ -144,6 +146,14 @@ export default {
     resetContent: function() {
       this.Contents = '';
       this.MAILADDRESS = '';
+    },
+    closeModal: function() {
+      this.modalErrTitle = ''
+      this.modalErrMessage = ''
+      this.showModalError = false
+      this.$router.push({
+        path: '/Main'
+      })
     }
   },
 }

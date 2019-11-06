@@ -77,12 +77,12 @@ export default {
   height: 100vh;
 }
 .app.active {
-  background-color: #fdff7f
+  background-color: #96ccf8;
 }
 .app.active2 {
-  background-color: #fcb8f3
+  background-color: rgb(251, 255, 41);
 }
 .app.active3 {
-  background-color: hsl(73, 73%, 78%)
+  background-color: rgb(243, 58, 12);
 }
 </style>
