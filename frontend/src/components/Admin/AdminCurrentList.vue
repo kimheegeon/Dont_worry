@@ -29,19 +29,17 @@
                 </tr>
                 <tr v-for="(data, index) in WaterQList" :key="index">
                 <td v-for="(value, key) in columns" :key="key">
-                    <!-- <p v-if="key=='Number'">{{ data[key] }}</p> -->
                     <p v-if="key=='AREA'" @click="ShowWaterQ(data['AREA'],data['DATE'])">{{ data[key] }}</p>
                     <p v-if="key=='WATERQ'" @click="ShowWaterQ(data['AREA'],data['DATE'])">{{ data[key] }}</p>
                     <p v-if="key=='DATE'" @click="ShowWaterQ(data['AREA'],data['DATE'])">{{ data[key] | moment("YYYY-MM-DD HH:mm:ss") }}</p>
+                    <!--<p v-if="key=='WEATHER'" @click="ShowWaterQ(data['AREA'],data['DATE'])">{{ data[key] }}</p> -->
                 </td>
                 </tr>
             </table>
             <vue-loading type="spiningDubbles" v-if="loadingFlag" color="#3cb4d3" :size="{ width: '50px', height: '50px' }"></vue-loading>
-            <!-- <paginate v-if="!loadingFlag" v-model="pageNum" :hide-prev-next="true" :page-count="totalPage" :page-range="10" :margin-pages="2" :click-handler="updateResource" :prev-text="'이전'" :next-text="'다음'" :container-class="'pagination'" :page-class="'page-item'">
-            </paginate> -->
         </div>
         <AdminDetailModal v-if="showModalDetail" @close="closeDetailModal(false)" @complete="closeDetailModal(true)" :current_no="current_no" :address="address" :search_date="search_date"></AdminDetailModal>
-        <ErrorModal v-if="showModalError" @close="closeErrModal" :title="modalErrTitle" :message="modalErrMessage"></ErrorModal>
+        <ErrorModal v-if="showModalError" @close="showModalError=false" :title="modalErrTitle" :message="modalErrMessage"></ErrorModal>
     </div>
 </template>
 
@@ -52,6 +50,8 @@ import Datepicker from 'vuejs-datepicker'
 import moment from 'moment'
 import 'moment/locale/ko'
 import axios from 'axios'
+import socket from 'socket.io'
+import * as io from 'socket.io-client'
 
 var DATE_FORMAT = "LL"
 
@@ -60,47 +60,15 @@ export default {
   data() {
     return {
       columns: {
-        // Number:'NO.',
         AREA: '지역',
         WATERQ: '수질 데이터',
-        DATE: '날짜 및 날씨 정보'
+        DATE: '날짜',
+        // WEATHER:'날씨(강우량)'
       },
       keyword: "",
       start_date:"",
       end_date:"",
       WaterQList:[],
-      /*WaterQList: [
-       {
-        Number:1,
-        AREA: '제주 한림읍 225', 
-        WATERQ: '기준치 초과',
-        DATE: '2019/10/28'
-       },
-       {
-        Number:2,
-        AREA: '제주 한림읍 223', 
-        WATERQ: '정상 범위내',
-        DATE: '2019/10/28'
-       },
-       {
-        Number:3,
-        AREA: '제주 한림읍 223', 
-        WATERQ: '정상 범위내',
-        DATE: '2019/10/28'
-       },
-       {
-        Number:4,
-        AREA: '제주 한림읍 223', 
-        WATERQ: '정상 범위내',
-        DATE: '2019/10/28'
-       },
-       {
-        Number:5,
-        AREA: '제주 한림읍 223', 
-        WATERQ: '정상 범위내',
-        DATE: '2019/10/28'
-       }
-      ],*/
       offset: 0,
       limit: 10,
       totalPage: 0,
@@ -112,7 +80,11 @@ export default {
       current_no:'',
       address:'',
       search_data:'',
-      showModalDetail: false
+      showModalDetail: false,
+      Waterdata:[],
+      ErrLocation:'',
+      ErrTime:'',
+      ErrTurbidity:''
     }
   },
   components: {
@@ -125,11 +97,11 @@ export default {
   },
   mounted() {
     var area = document.getElementById('start_date')
-    area.classList.add('form-control');
-    area.setAttribute("style", "background-color: #FFFFFF; height: 40px;");
+    area.classList.add('form-control')
+    area.setAttribute("style", "background-color: #FFFFFF; height: 40px;")
     var area2 = document.getElementById('end_date')
-    area2.classList.add('form-control');
-    area2.setAttribute("style", "background-color: #FFFFFF; height: 40px;");
+    area2.classList.add('form-control')
+    area2.setAttribute("style", "background-color: #FFFFFF; height: 40px;")
   },
   methods: {
     getWaterQList: function() {
@@ -143,12 +115,8 @@ export default {
       axios.get('http://127.0.0.1:3000/water/WaterQList', {
         params:{
           FREE_WORD: this.keyword,
-          START_DATE: '2019-05-05',
-          END_DATE:'2019-11-07',
-          // START_DATE: this.start_date,
-          // END_DATE:this.end_date,
-          // LIMIT: this.limit,
-          // OFFSET: this.offset,
+          START_DATE: this.start_date,
+          END_DATE:this.end_date
         },
       }
       ).then(response => {
@@ -160,8 +128,6 @@ export default {
           if(Object.keys(res.WaterQList).length > 0){
             this.WaterQList = res.WaterQList
             console.log(this.WaterQList)
-            // this.totalPage = Math.ceil(res.WaterQList_COUNT / this.limit) //수질데이터 총 갯수 서버에서 획득
-            // this.offset = this.offset + this.limit
           } else {
             this.WaterQList = []
             this.totalPage = 0
@@ -171,6 +137,7 @@ export default {
           this.modalErrMessage = '수질데이터 획득에 실패했습니다.'
           this.showModalError = true
         }
+        this.CallSocket()
       })
     },
     execSearch: function() {
@@ -190,13 +157,43 @@ export default {
       return moment(date).format(DATE_FORMAT);
     },
     ShowWaterQ(address, date) {
-      // this.current_no = number
       this.address = address
       this.search_date = date
       this.showModalDetail = true
     },
     closeDetailModal: function(coumplete){
       this.showModalDetail = false
+    },
+    ShowAlert: function(flag) {
+      if(flag == true){
+        this.showModalError = true
+        this.modalErrTitle = '수질데이터 변화감지 알람'
+        this.modalErrMessage = '수질데이터에 급격한 변화가 감지되었습니다.\n 아래의 내용을 확인하십시오.\n'+ '위치:' + this.ErrLocation + '\n날짜:' + this.ErrTime + '\n수질데이터(탁도):' + this.ErrTurbidity
+      } else {
+        this.showModalError = false
+        this.modalErrTitle = ''
+        this.modalErrMessage = ''
+      }
+    },
+    CallSocket:function(){
+      console.log('socket')
+      var socket = io.connect('http://localhost:3000')
+      var self = this
+      socket.on('alert', function (data) {
+        var res = JSON.parse(data)
+        self.Waterdata = res
+        console.log('res',res)
+        self.ErrLocation = res["Location"]
+        self.ErrTime = res["time"]
+        self.ErrTurbidity = res["turbidity"]
+        if(self.Waterdata !==''){
+          console.log("messageIsNotNull")
+          self.ShowAlert(true)
+        } else {
+          console.log("messageIsNull")
+          self.ShowAlert(false)
+        }
+      })
     }
   },
   watch: {

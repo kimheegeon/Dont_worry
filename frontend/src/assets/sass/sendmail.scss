@@ -64,6 +64,11 @@ main {
   width: 25%;
 }
 
+label.content {
+  width: 100%;
+  float: left;
+}
+
 .form-user input.form-control {
   padding: 9px 0.75rem;
   width: 60%;

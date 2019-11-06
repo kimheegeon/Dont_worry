@@ -42,26 +42,26 @@ nav {
 }
 
 nav.navbar.navbar-expand-md.fixed-top.active{
-  background-color: #fdff7f;
+  background-color: #96ccf8;
 }
 
 nav.navbar.navbar-expand-md.fixed-top.active2{
-  background-color: #fcb8f3;
+  background-color: rgb(251, 255, 41);
 }
 
 nav.navbar.navbar-expand-md.fixed-top.active3{
-  background-color: hsl(73, 73%, 78%);
+  background-color: rgb(243, 58, 12);
 }
 
 button {
   &.btn-default {
-    background-color: #fcc6e1;
+    background-color: hsl(29, 100%, 68%);
     color: #fff;
   }
 }
 
 .sidemenu{
-  background-color: #fcc6e1;
+  background-color: hsl(29, 100%, 68%);
   height:100%;
   position: fixed;
   width:280px;
@@ -78,15 +78,15 @@ button {
 }
 
 .btn-sidemenu.active{
-  background-color:#fdff7f;
+  background-color: #96ccf8;
 }
 
 .btn-sidemenu.active2{
-  background-color:#fcb8f3;
+  background-color:rgb(251, 255, 41);
 }
 
 .btn-sidemenu.active3{
-  background-color:hsl(73, 73%, 78%);
+  background-color:rgb(243, 58, 12);
 }
 
 .btn-sidemenu img {
@@ -98,7 +98,7 @@ button:focus {
 }
 
 .sidemenu-end {
-  background-color:#fcc6e1;
+  background-color:hsl(29, 100%, 68%);
   border:transparent;
   margin-top:2%;
   padding-left: 10%;

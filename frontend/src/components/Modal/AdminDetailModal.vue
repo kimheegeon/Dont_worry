@@ -10,37 +10,39 @@
               <tr>
                 <th>위치 정보</th>
                 <td>
-                  <input type="text" v-model="WaterDetail.AREA" />
+                  {{address}}
                 </td>
               </tr>
               <tr>
                 <th>일시</th>
                 <td>
-                  <input type="text" v-model="WaterDetail.DATE" />
+                  {{search_date}}
                 </td>
               </tr>
               <tr>
                 <th>질산성 질소(NO3-N)</th>
                 <td>
-                  <input type="text" v-model="WaterDetail.NO3N" />
+                  {{WaterDetail.NO3N}}
                 </td>
               </tr>
               <tr>
               <th>황화 수소(H2S)</th>
                 <td>
-                  <input type="text" v-model="WaterDetail.H2S" />
+                  {{WaterDetail.H2S}}
                 </td>
               </tr>
               <tr>
                 <th>탁도</th>
                 <td>
-                  <input type="text" v-model="WaterDetail.Turbidity" />
+                  {{WaterDetail.Turbidity}}
                 </td>
               </tr>
               <tr>
-                <th>트랜잭션값</th>
+                <th>트랜잭션</th>
                 <td>
-                  <input type="text" v-model="WaterDetail.transaction" />
+                  {{WaterDetail.transaction}}
+                  <br>
+                  <a href="#" @click="clickLink()" style="color: red;text-decoration: underline;">블록데이터 확인하기</a>
                 </td>
               </tr>
             </table>
@@ -52,7 +54,7 @@
         <!-- /modal-body -->
       </div>
     </div>
-    <ErrorModal v-if="showModalError" @close="closeErrModal" :title="modalErrTitle" :message="modalErrMessage"></ErrorModal>
+    <ErrorModal v-if="showModalError" @close="showModalError = false" :title="modalErrTitle" :message="modalErrMessage"></ErrorModal>
   </div>
 </transition>
 </template>
@@ -71,7 +73,8 @@ export default {
       WaterDetail: [],
       showModalError: false,
       modalErrTitle: '',
-      modalErrMessage: ''
+      modalErrMessage: '',
+      url:''
     }
   },
   props: ['address', 'search_date'],
@@ -79,9 +82,8 @@ export default {
     getWaterDetail: function() {
       axios.get('http://127.0.0.1:3000/water/WaterDetail', {
         params:{
-          // Number: this.current_no,
-          AREA: this.address,
-          DATE: this.search_date
+          AREA: "제주도북부앞바다",
+          DATE: "2019-05-23 11:22:41"
         }
       }).then(response => {
         var res = JSON.parse(response.data)
@@ -98,10 +100,13 @@ export default {
     closeModal: function() {
       this.$emit('close')
     },
+    clickLink: function (){
+      var newWindow = window.open("about:blank")
+      newWindow.location.href = 'https://baobab.scope.klaytn.com/tx/'+ this.WaterDetail.transaction
+    }
   },
   created() {
       this.getWaterDetail()
-      // this.WaterDetail.Number = this.current_no
       this.WaterDetail.AREA = this.address
       this.WaterDetail.DATE = this.search_date
   },

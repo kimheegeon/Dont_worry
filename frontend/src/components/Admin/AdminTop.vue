@@ -15,7 +15,7 @@
       <Alerted v-if="selectAdminAlerted" @CurrentList="changeTab(1)"  @CountList="changeTab(3)"></Alerted>
       <CountList v-if="selectCountList" @CurrentList="changeTab(1)" @AlertedList="changeTab(2)"></CountList>
     </div>
-    <app-footer class="footer_public"></app-footer>
+    <!-- <app-footer class="footer_public"></app-footer> -->
     <BaseModal v-if="showModalError" @close="showModalError = false" :title="modalErrTitle" :message="modalErrMessage"></BaseModal>
   </div>
 </template>
@@ -29,7 +29,7 @@ import CountList from './CountList'
 import BaseModal from '../Modal/BaseModal'
 import { mapActions,mapMutations } from 'vuex'
 import socket from 'socket.io'
-import io from 'socket.io-client'
+import * as io from 'socket.io-client'
 
 export default {
   name: 'AdminTop',
@@ -99,25 +99,12 @@ export default {
     }
   },
   created: function() {
-    // var socket = io.connect('http://localhost:3000')
-    // var userInput = 'asdsd'
-    // socket.emit('message', { message: userInput })
 
-    // var self = this
-    // socket.on('echo', function (data) {
-    //   self.Waterdata = data['message']
-    //   if(self.Waterdata !==''){
-    //     console.log("messageIsNotNull",self.Waterdata)
-    //     self.ShowAlert(true)
-    //   } else {
-    //     console.log("messageIsNull")
-    //     self.ShowAlert(false)
-    //   }
-    // })
   },
   updated() {
   },
   mounted: function(){
+
   }
 }
 </script>

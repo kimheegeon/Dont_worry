@@ -33,7 +33,7 @@ export default {
   name: 'App',
   data(){
     return {
-      WaterQ: 3,
+      WaterQ: '',
       location:"",
       lat:'',
       lng:'',

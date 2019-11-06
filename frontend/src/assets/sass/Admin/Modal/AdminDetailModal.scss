@@ -154,23 +154,21 @@ div {
 // vh로 높이 설정함으로써 스크롤바 표시
   &.DetailModal {
     //  height: auto;
-    height: 70vh;
+    height: 40vh;
     padding: 1%;
     // 해상도 1200을 기점으로 표시
     @include mq-down('xl') {
       width: 60%;
-      height: 70vh;
+      height: 40vh;
       //    height: auto;
-      overflow-y: scroll;
-      overflow-x: hidden;
+      // overflow-y: scroll;
+      // overflow-x: hidden;
     }
     @include mq-up('xl') {
       //    height: auto;
-      height: 70vh;
+      height: 40vh;
       padding-bottom: 1%;
       width: 60%;
-      overflow-y: scroll;
-      overflow-x: hidden;
     }
   }
 }

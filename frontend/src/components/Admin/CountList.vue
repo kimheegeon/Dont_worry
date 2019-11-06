@@ -31,15 +31,13 @@
                 <td v-for="(value, key, index) in columns" :key="index">
                     <p v-if="key=='AREA'">{{ data[key] }}</p>
                     <p v-if="key=='COUNT'">{{ data[key] }}</p>
-                    <!-- <p v-if="key=='DATE'">{{ data[key] | moment("YYYY-MM-DD HH:mm:ss") }}</p> -->
+                    <p v-if="key=='DATE'">{{ data[key] | moment("YYYY-MM-DD HH:mm:ss") }}</p>
                 </td>
                 </tr>
             </table>
             <vue-loading type="spiningDubbles" v-if="loadingFlag" color="#3cb4d3" :size="{ width: '50px', height: '50px' }"></vue-loading>
-            <!-- <paginate v-if="!loadingFlag" v-model="pageNum" :hide-prev-next="true" :page-count="totalPage" :page-range="10" :margin-pages="2" :click-handler="updateResource" :prev-text="'이전'" :next-text="'다음'" :container-class="'pagination'" :page-class="'page-item'">
-            </paginate> -->
         </div>
-        <ErrorModal v-if="showModalError" @close="closeErrModal" :title="modalErrTitle" :message="modalErrMessage"></ErrorModal>
+        <ErrorModal v-if="showModalError" @close="showModalError=false" :title="modalErrTitle" :message="modalErrMessage"></ErrorModal>
     </div>
 </template>
 
@@ -59,33 +57,12 @@ export default {
       columns: {
         AREA: '양돈가 위치',
         COUNT: '사육두수',
-        // DATE: '날짜'
+        DATE: '날짜'
       },
       keyword: "",
       start_date:"",
       end_date:"",
-      CountList: [
-       /*{ 
-        AREA: '한림1가 양돈가', 
-        COUNT: '2590',
-        DATE: '2019/10/28'
-       },
-       { 
-        AREA: '한림2가 양돈가', 
-        COUNT: '2700',
-        DATE: '2019/10/28'
-       },
-       { 
-        AREA: '한림3가 양돈가', 
-        COUNT: '2700',
-        DATE: '2019/10/28'
-       },
-       { 
-        AREA: '한림4가 양돈가', 
-        COUNT: '2800',
-        DATE: '2019/10/28'
-       },*/
-      ],
+      CountList: [],
       offset: 0,
       limit: 10,
       totalPage: 0,
@@ -123,12 +100,8 @@ export default {
       axios.get('http://127.0.0.1:3000/pig/count', {
         params:{
           FREE_WORD: this.keyword,
-          START_DATE: '2019-05-05',
-          END_DATE:'2019-11-07'
-          // START_DATE: this.start_date,
-          // END_DATE:this.end_date,
-          // LIMIT: this.limit,
-          // OFFSET: this.offset,
+          START_DATE: this.start_date,
+          END_DATE:this.end_date
         }
       }).then(response => {
         var res = JSON.parse(response.data)
@@ -138,8 +111,6 @@ export default {
         if(res.STATUS_CODE == '00'){
           if(Object.keys(res.CountList).length > 0){
             this.CountList = res.CountList
-            // this.totalPage = Math.ceil(response.data.CountList_COUNT / this.limit) //신고데이터 총 갯수 서버에서 획득
-            // this.offset = this.offset + this.limit
           } else {
             this.CountList = []
             this.totalPage = 0

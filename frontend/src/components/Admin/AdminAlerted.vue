@@ -33,12 +33,11 @@
                     <p v-if="key=='CONTENTS'">{{ data[key] }}</p>
                     <p v-if="key=='USER'">{{ data[key] }}</p>
                     <p v-if="key=='DATE'">{{ data[key] | moment("YYYY-MM-DD HH:mm:ss") }}</p>
+                    <!-- <p v-if="key=='WEATHER'" @click="ShowWaterQ(data['AREA'],data['DATE'])">{{ data[key] }}</p> -->
                 </td>
                 </tr>
             </table>
             <vue-loading type="spiningDubbles" v-if="loadingFlag" color="#3cb4d3" :size="{ width: '50px', height: '50px' }"></vue-loading>
-            <!-- <paginate v-if="!loadingFlag" v-model="pageNum" :hide-prev-next="true" :page-count="totalPage" :page-range="10" :margin-pages="2" :click-handler="updateResource" :prev-text="'이전'" :next-text="'다음'" :container-class="'pagination'" :page-class="'page-item'">
-            </paginate> -->
         </div>
         <ErrorModal v-if="showModalError" @close="closeErrModal" :title="modalErrTitle" :message="modalErrMessage"></ErrorModal>
     </div>
@@ -61,37 +60,13 @@ export default {
         AREA: '지역',
         USER: '신고자 정보',
         CONTENTS: '신고내역',
-        DATE: '날짜 및 날씨 정보'
+        DATE: '날짜',
+        WEATHER:'날씨(강우량)'
       },
       keyword: "",
       start_date:"",
       end_date:"",
-      AlertedList: [
-      /* { 
-        AREA: '제주 한림읍 225', 
-        CONTENTS: '지하수 상태 좋음이라는데 냄새가 너무 심해요..지하수 상태 좋음이라는데 냄새가 너무 심해요..지하수 상태 좋음이라는데 냄새가 너무 심해요..지하수 상태 좋음이라는데 냄새가 너무 심해요..지하수 상태 좋음이라는데 냄새가 너무 심해요..지하수 상태 좋음이라는데 냄새가 너무 심해요..지하수 상태 좋음이라는데 냄새가 너무 심해요..지하수 상태 좋음이라는데 냄새가 너무 심해요..',
-        USER: 'yyy@gmail.com',
-        DATE: '2019/10/28'
-       },
-       { 
-        AREA: '제주 한림읍 225', 
-        CONTENTS: '악취 겁나구림',
-        USER: 'yyy1111@gmail.com',
-        DATE: '2019/10/28'
-       },
-       { 
-        AREA: '제주 한림읍 225', 
-        CONTENTS: '이상한냄새가 나요',
-        USER: 'yyy2222@gmail.com',
-        DATE: '2019/10/28'
-       },
-       { 
-        AREA: '제주 한림읍 225', 
-        CONTENTS: '앱이 안움직여요',
-        USER: 'yyy@gmail.com',
-        DATE: '2019/10/28'
-       }*/
-      ],
+      AlertedList: [],
       offset: 0,
       limit: 10,
       totalPage: 0,
@@ -129,12 +104,8 @@ export default {
       axios.get('http://127.0.0.1:3000/report/alertList', {
         params:{
           FREE_WORD: this.keyword,
-          START_DATE: '2019-05-05',
-          END_DATE:'2019-11-07'
-          // START_DATE: this.start_date,
-          // END_DATE:this.end_date,
-          // LIMIT: this.limit,
-          // OFFSET: this.offset,
+          START_DATE: this.start_date,
+          END_DATE:this.end_date
         }
       }).then(response => {
         var res = JSON.parse(response.data)
@@ -143,9 +114,7 @@ export default {
         this.loadingFlag = false
         if(res.STATUS_CODE == '00'){
           if(Object.keys(res.AlertedList).length > 0){
-            this.AlertedList = res.AlertedList;
-            // this.totalPage = Math.ceil(res.AlertedList_COUNT / this.limit) //신고데이터 총 갯수 서버에서 획득
-            // this.offset = this.offset + this.limit
+            this.AlertedList = res.AlertedList
           } else {
             this.AlertedList = []
             this.totalPage = 0
