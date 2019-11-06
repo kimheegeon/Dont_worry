@@ -8,6 +8,7 @@ var moment = require('moment');
 var fs = require('fs');
 var mysql = require('mysql');
 var db = require('./DB_config');
+var jsonfile = require('jsonfile');
 
 var con = mysql.createConnection({
   host: db.host,
@@ -61,16 +62,21 @@ new CronJob('0 0 7 * * *', function() {
 
   sql = "SELECT iot_ID, AVG(turbidity)"+
         "FROM water " +
-        "WHERE time >=? and " +
-               "time <? " +
+        "WHERE DATE_FORMAT(time, %Y%m%d) =? and " +
         "GROUP BY iot_ID" ;
 
   con.query(sql,[moment().subtract(1,'days').format("YYYYMMDD")],function(error,results){
     if(error) throw error;
     else{
       results.forEach(element => {
-        fs.writeFileSync('/'+moment()+'/'+element.iot_ID,element.turbidity,'utf8');
+        var data = new Object();
+        data.date = moment().format("YYYYMMDD");
+        data.standard = results;
+        jsonfile.writeFile("./public/standards/standard.json",data,function(){
+          if(error) throw error;
+        })
       });
+
     }
   });
   

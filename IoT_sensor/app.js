@@ -3,6 +3,11 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var jsonfile = require('jsonfile');
+var CronJob = require('cron').CronJob;
+var request = require('request');
+var standart = require('./public/standard.json')
+var 
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -62,5 +67,24 @@ const tempSensor = mcpadc.open(6, err => {
     });
   }, 8000);
 });
+
+new CronJob('0 30 7 * * *', function() {
+  
+  var options ={
+    method:"GET",
+    url: "localhost:3000/water/Standard",
+    body:{
+      iot_ID : 
+    }
+
+  }
+
+  request("http://localhost:3000",(error,response,body) =>{
+    if(error) throw error;
+
+  })
+
+});
+
 
 module.exports = app;

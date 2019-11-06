@@ -8,7 +8,7 @@ var con = mysql.createConnection({
     password: db.password,
     database: db.database
 })
-
+var Standard = require("../public/standards/standard.json");
 // iot기기에서 받은 탁도정보 detect
 router.get('/detect', function (req, res, next) {
     var address = req.query.address;
@@ -16,6 +16,17 @@ router.get('/detect', function (req, res, next) {
     var iot_ID = req.query.address;
 
 
+
+});
+
+router.get('/Standard', function(req,res,next){
+    var iot_ID = req.query.iot_ID;
+
+    var stan ='';
+    Standard.standard.forEach(element => {
+        if(element.iot_ID == iot_ID)     
+            res.json(JSON.stringify(element.standard));
+    });
 
 });
 
@@ -88,7 +99,7 @@ router.get('/WaterDetail', function (req, res, next) {
         else {
             var result = new Object();
             result.STATUS_CODE = STATUS_CODE;
-            result.WaterDetail = results;
+            result.WaterDetail = results[0];
             res.json(JSON.stringify(result));
         }
     });
