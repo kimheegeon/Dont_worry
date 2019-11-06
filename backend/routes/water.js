@@ -26,10 +26,12 @@ router.get('/Standard', function(req,res,next){
     var iot_ID = req.query.iot_ID;
 
     var stan ='';
-    Standard.standard.forEach(element => {
-        if(element.iot_ID == iot_ID)     
-            res.json(JSON.stringify(element.standard));
-    });
+    Standard.standard.some(element=>{
+        if(element.iot_ID == iot_ID){
+            res.json(JSON.stringify(element));
+        }
+        return element.iot_ID==iot_ID;
+    })
 
 });
 
@@ -50,7 +52,7 @@ router.get('/checkWaterQ', function (req, res, next) {
               "FROM IoT_water iw, water w " +
               "WHERE iw.address = ? and " +
                     "iw.iot_ID = w.iot_ID " +
-              'ORDER BY DATE';
+              'ORDER BY TIME';
 
 
     con.query(sql, [address], function (error, results) {
@@ -121,7 +123,7 @@ router.get('/WaterQList', function (req, res, next) {
     var STATUS_CODE = "00";
     var WaterQList;
 
-    var sql =   "SELECT iw.iot_ID , iw.address AREA, w.waterq WATERQ " +
+    var sql =   "SELECT iw.iot_ID , iw.address AREA, w.waterq WATERQ, w.time " +
                 "FROM IoT_water iw, water w " +
                 "WHERE iw.iot_ID = w.iot_ID ";
 
