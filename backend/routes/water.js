@@ -73,6 +73,7 @@ router.get('/WaterDetail', function (req, res, next) {
         var result = new Object();
         result.STATUS_CODE = "90";
         res.json(JSON.stringify(result));
+        return;
     }
     var sql =   "SELECT iw.iot_ID, w.turbidity Turbidity, w.tx_hash transaction " +
                 "FROM IoT_water iw, water w " +
@@ -107,7 +108,7 @@ router.get('/WaterQList', function (req, res, next) {
                 "FROM IoT_water iw, water w " +
                 "WHERE iw.iot_ID = w.iot_ID ";
 
-    if (FREE_WORD)  sql += `and ir.address like '%${FREE_WORD}%' `;
+    if (FREE_WORD)  sql += `and iw.address like '%${FREE_WORD}%' `;
     if (START_DATE) sql += `and w.time >= '${START_DATE}' `;
     if (END_DATE)   sql += `and w.time <= '${END_DATE}' `;
 
