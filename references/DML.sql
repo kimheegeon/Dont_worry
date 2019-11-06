@@ -26,10 +26,10 @@ insert into pig(iot_ID,pig,time,tx_hash) values(3,5461,'2019-05-23','0x221af7c55
 insert into pig(iot_ID,pig,time,tx_hash) values(4,4567,'2019-05-23','0x221af7c5537efce50a9f2cfda0173ad5aab4f4153cd6b997c1fdb6afeb82f312');
 insert into pig(iot_ID,pig,time,tx_hash) values(5,1235,'2019-05-23','0x221af7c5537efce50a9f2cfda0173ad5aab4f4153cd6b997c1fdb6afeb82f312');
 insert into pig(iot_ID,pig,time,tx_hash) values(6,23456,'2019-05-23','0xf6f22e3cb06863fc75f71ec785d8a7afe0f7a4d21420da85083732ca20e49f1f');
-insert into pig(iot_ID,pig,time,tx_hash) values(7,1235,'2019-05-23','0xf6f22e3cb06863fc75f71ec785d8a7afe0f7a4d21420da85083732ca20e49f1f');
+insert into pig(iot_ID,pig,time,tx_hash) values(7,1235,'2019-05-21','0xf6f22e3cb06863fc75f71ec785d8a7afe0f7a4d21420da85083732ca20e49f1f');
 insert into pig(iot_ID,pig,time,tx_hash) values(8,7854,'2019-05-23','0xf6f22e3cb06863fc75f71ec785d8a7afe0f7a4d21420da85083732ca20e49f1f');
 insert into pig(iot_ID,pig,time,tx_hash) values(9,4567,'2019-05-23','0xf6023c1f2f2c8183447129981528795f026c3d3cf46c21a476968b8b5360edaa');
-insert into pig(iot_ID,pig,time,tx_hash) values(10,2345,'2019-05-23','0xf6f22e3cb06863fc75f71ec785d8a7afe0f7a4d21420da85083732ca20e49f1f');
+insert into pig(iot_ID,pig,time,tx_hash) values(10,2345,'2019-05-21','0xf6f22e3cb06863fc75f71ec785d8a7afe0f7a4d21420da85083732ca20e49f1f');
 
 INSERT INTO water(iot_ID,turbidity,time,waterq,tx_hash) VALUES(1,464,'2019-05-23',99,'0xf6f22e3cb06863fc75f71ec785d8a7afe0f7a4d21420da85083732ca20e49f1f');
 INSERT INTO water(iot_ID,turbidity,time,waterq,tx_hash) VALUES(2,136,'2019-05-23',80,'0xf6f22e3cb06863fc75f71ec785d8a7afe0f7a4d21420da85083732ca20e49f1f');
@@ -40,9 +40,9 @@ INSERT INTO water(iot_ID,turbidity,time,waterq,tx_hash) VALUES(6,134,'2019-05-23
 INSERT INTO water(iot_ID,turbidity,time,waterq,tx_hash) VALUES(7,324,'2019-05-23',130,'0x221af7c5537efce50a9f2cfda0173ad5aab4f4153cd6b997c1fdb6afeb82f312');
 INSERT INTO water(iot_ID,turbidity,time,waterq,tx_hash) VALUES(8,152,'2019-05-23',150,'0x221af7c5537efce50a9f2cfda0173ad5aab4f4153cd6b997c1fdb6afeb82f312');
 INSERT INTO water(iot_ID,turbidity,time,waterq,tx_hash) VALUES(9,346,'2019-05-23',160,'0x221af7c5537efce50a9f2cfda0173ad5aab4f4153cd6b997c1fdb6afeb82f312');
-INSERT INTO water(iot_ID,turbidity,time,waterq,tx_hash) VALUES(10,235,'2019-05-23',152,'0x221af7c5537efce50a9f2cfda0173ad5aab4f4153cd6b997c1fdb6afeb82f312');
+INSERT INTO water(iot_ID,turbidity,time,waterq,tx_hash) VALUES(10,235,'2019-05-21',152,'0x221af7c5537efce50a9f2cfda0173ad5aab4f4153cd6b997c1fdb6afeb82f312');
 
-INSERT INTO report(comments,mail,address,time) VALUES("냄새가 너어무 심해여1","gmlrjs9503@gmail.com","제주",'2019-05-23');
+INSERT INTO report(comments,mail,address,time) VALUES("냄새가 너어무 심해여1","gmlrjs9503@gmail.com","제주",'2019-05-21');
 INSERT INTO report(comments,mail,address,time) VALUES("냄새가 너어무 심해여2","gmlrjs9503@gmail.com","서귀포",'2019-05-23');
 INSERT INTO report(comments,mail,address,time) VALUES("냄새가 너어무 심해여3","gmlrjs9503@gmail.com","성산",'2019-05-23');
 INSERT INTO report(comments,mail,address,time) VALUES("냄새가 너어무 심해여4","gmlrjs9503@gmail.com","고산",'2019-05-23');

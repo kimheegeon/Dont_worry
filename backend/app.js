@@ -9,6 +9,8 @@ var fs = require('fs');
 var mysql = require('mysql');
 var db = require('./DB_config');
 var jsonfile = require('jsonfile');
+var cors = require('cors');
+
 
 var con = mysql.createConnection({
   host: db.host,
@@ -24,7 +26,7 @@ var waterRouter = require('./routes/water');
 
 var app = express();
 app.io = require('socket.io')();
-
+app.use(cors());
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -83,28 +85,50 @@ new CronJob('0 0 7 * * *', function() {
 
 });
 
+// app.all('/*', function(req, res, next) { 
+//   res.header("Access-Control-Allow-Origin", "*"); 
+//   res.header("Access-Control-Allow-Headers", "X-Requested-With"); next(); 
+// });
+
+
+app.io.set('origins','*:*');
 /* socket io */
-app.io.on('connection', function(socket) {
-  /*
-   블록체인의 값을 읽어와서 해당값이 기준치를 초과하면 client에 전송
-  */
-  // app.get("/alert",function (req, res, next) {
-  //   console.log(req.query);
-  //   var alert = req.query;
-  //   app.io.emit("alert",JSON.stringify(alert));
-  // });
 
-  console.log("socket connect!!");
-  console.log(socket);
-  
-  var waterV = ['320','322','322','324','276','58','12','11','11','10','12','11','11','10','12','11','11','10','11','12','12','10','12','11', '11','10','12','12','12','10','12','11','11','10','12','12','12','10'];
-  
-  waterV.forEach(element=>{
-    if(element<=150){
-      app.io.emit("alert",JSON.stringify(alert));
-    }
-  })
-  
+app.get("/alert",function(req,res,next){
+
+  app.io.on('connection', function(socket) {
+    /*
+    블록체인의 값을 읽어와서 해당값이 기준치를 초과하면 client에 전송
+    */
+    // app.get("/alert",function (req, res, next) {
+    //   console.log(req.query);
+    //   var alert = req.query;
+    //   app.io.emit("alert",JSON.stringify(alert));
+    // });
+
+    console.log("socket connect!!");
+    // console.log(socket);
+    
+    var waterV = ['320','322','322','324','276','58','12','11','11','10','12','11','11','10','12','11','11','10','11','12','12','10','12','11', '11','10','12','12','12','10','12','11','11','10','12','12','12','10'];
+    
+    // console.log(req.query);
+    // var el = new Object();
+    // el.standard = req.query.standard;
+    // el.Location = req.query.Location;
+    // el.time = moment().format("YYYY-MM-DD HH:mm:ss");
+    // el.turbidity = req.query.turbidity;
+    // app.io.emit("alert",JSON.stringify(el));
+    
+    waterV.some(element=>{
+      if(element<=150){
+          var el = new Object();
+          el.Location = "제주혁신성장센터";
+          el.time = moment().format("YYYY-MM-DD HH:mm:ss");
+          el.turbidity = element;
+          app.io.emit("alert",JSON.stringify(el));
+        }
+        return element <150
+    })
+  });
 });
-
 module.exports = app;

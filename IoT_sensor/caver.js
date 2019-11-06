@@ -75,7 +75,7 @@ const caver = {
       console.log(`txHash: ${txHash}`);
 
       // if(watervalue<consts.standard){
-      //   request.get(`http://localhost:3000/alert?waterValue=${waterValue}&standard=${consts.standard}&Location=${consts.Location}`);
+      //   request.get(`http://localhost:3000/alert?turbidity=${waterValue}&standard=${consts.standard}&Location=${consts.Location}`);
       // }
 
       //sql = "INSERT INTO water(iot_ID,turbidity,time,waterq,tx_hash) values(?,?,now(),?,?)";
