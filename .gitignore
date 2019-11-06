@@ -5,3 +5,4 @@ blockchain/node_modules
 blockchain/build
 blockchain/deployedABI
 blockchain/deployedAddress
+backend/DB_config.json

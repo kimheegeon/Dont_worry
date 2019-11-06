@@ -4,6 +4,7 @@ const nconf = require('nconf')
 var mysql = require('mysql');
 var db = require('./DB_config');
 var request = require('request');
+var consts = require('./consts.json');
 
 var con = mysql.createConnection({
   host: db.host,
@@ -73,15 +74,9 @@ const caver = {
     .once('transactionHash', (txHash) => {
       console.log(`txHash: ${txHash}`);
 
-      var options={
-        body : {
-         iot_ID : 2,
-         turbidity : waterVal
-        }
-      }
-      request.get(`http://localhost:3000/water/detect?iot_ID=2&turbidity=${waterVal}`, options, (error,response,body)=>{
-        if (error) throw error;
-      });
+      // if(watervalue<consts.standard){
+      //   request.get(`http://localhost:3000/alert?waterValue=${waterValue}&standard=${consts.standard}&Location=${consts.Location}`);
+      // }
 
       //sql = "INSERT INTO water(iot_ID,turbidity,time,waterq,tx_hash) values(?,?,now(),?,?)";
       //con.query(sql,[2,waterVal,40,txHash],function(error,results){

@@ -7,7 +7,6 @@ var jsonfile = require('jsonfile');
 var CronJob = require('cron').CronJob;
 var request = require('request');
 var consts = require('./consts.json');
-var jsonfile = require('jsonfile');
 
 
 var Caver = require('./caver');
@@ -77,9 +76,11 @@ new CronJob('0 30 7 * * *', function() {
 
   }
 
-  request("http://localhost:3000",options,(error,response,body) =>{
+  request("http://localhost:3000/water/Standard",options,(error,response,body) =>{
     if(error) throw error;
-
+    else{
+      jsonfile.writeFile("./consts.json",JSON.parse(response));
+    }
   })
 
 });
