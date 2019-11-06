@@ -6,11 +6,9 @@ var logger = require('morgan');
 var jsonfile = require('jsonfile');
 var CronJob = require('cron').CronJob;
 var request = require('request');
-var standart = require('./public/standard.json')
-var 
+var consts = require('./consts.json');
+var jsonfile = require('jsonfile');
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
 
 var Caver = require('./caver');
 var mcpadc = require('mcp-spi-adc');
@@ -27,8 +25,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -68,18 +64,20 @@ const tempSensor = mcpadc.open(6, err => {
   }, 8000);
 });
 
+
+//get standard
 new CronJob('0 30 7 * * *', function() {
   
   var options ={
     method:"GET",
     url: "localhost:3000/water/Standard",
     body:{
-      iot_ID : 
+      iot_ID :consts.iot_ID 
     }
 
   }
 
-  request("http://localhost:3000",(error,response,body) =>{
+  request("http://localhost:3000",options,(error,response,body) =>{
     if(error) throw error;
 
   })

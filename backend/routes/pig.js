@@ -15,7 +15,7 @@ router.get('/count', function (req, res, next) {
   var START_DATE = req.query.START_DATE;
   var END_DATE = req.query.END_DATE;
   var STATUS_CODE = "00";
-  var sql = "SELECT ir.iot_ID iot_ID, ir.address AREA, p.pig COUNT " +
+  var sql = "SELECT ir.iot_ID iot_ID, ir.address AREA, p.pig COUNT, p.time " +
             "FROM IoT_RFID ir, pig p " +
             "WHERE ir.iot_ID = p.iot_ID ";
   
@@ -23,7 +23,7 @@ router.get('/count', function (req, res, next) {
   if(START_DATE)  sql+=`and p.time >= '${START_DATE}' `;
   if(END_DATE)    sql+=`and p.time <= '${END_DATE}' `;
 
-  console.log(sql);
+  sql += 'ORDER BY p.time';
 
   con.query(sql, function (error, results) {
     if (error) {

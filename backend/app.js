@@ -88,6 +88,13 @@ app.io.on('connection', function(socket) {
   /*
    블록체인의 값을 읽어와서 해당값이 기준치를 초과하면 client에 전송
   */
+  app.get("/alert",function (req, res, next) {
+    console.log(req.query);
+    var alert = req.query;
+    app.io.emit("alert",JSON.stringify(alert));
+  });
+
+  
   console.log("socket connect!!");
   console.log(socket);
 });

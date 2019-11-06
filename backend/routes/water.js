@@ -8,13 +8,16 @@ var con = mysql.createConnection({
     password: db.password,
     database: db.database
 })
-var Standard = require("../public/standards/standard.json");
+
+// var Standard = require("../public/standards/standard.json");
 // iot기기에서 받은 탁도정보 detect
 router.get('/detect', function (req, res, next) {
-    var address = req.query.address;
-    var data = req.query.address;
-    var iot_ID = req.query.address;
+    var data = req.query.turbidity;
+    var iot_ID = req.query.iot_ID;
 
+    // Standard.forEach((element) =>{
+    //     if(element == iot_ID)
+    // })
 
 
 });
@@ -46,7 +49,9 @@ router.get('/checkWaterQ', function (req, res, next) {
     var sql = "SELECT iw.iot_ID , iw.address , w.turbidity " +
               "FROM IoT_water iw, water w " +
               "WHERE iw.address = ? and " +
-                    "iw.iot_ID = w.iot_ID "
+                    "iw.iot_ID = w.iot_ID " +
+              'ORDER BY DATE';
+
 
     con.query(sql, [address], function (error, results) {
         if (error) {
@@ -91,6 +96,7 @@ router.get('/WaterDetail', function (req, res, next) {
                 "WHERE  iw.address = ? and " +
                         "iw.iot_ID = w.iot_ID and " +
                         "w.time = ? "
+                        
     con.query(sql, [AREA, DATE], function (error, results) {
         if (error) {
             STATUS_CODE = "90";
@@ -122,6 +128,8 @@ router.get('/WaterQList', function (req, res, next) {
     if (FREE_WORD)  sql += `and iw.address like '%${FREE_WORD}%' `;
     if (START_DATE) sql += `and w.time >= '${START_DATE}' `;
     if (END_DATE)   sql += `and w.time <= '${END_DATE}' `;
+
+    sql += 'ORDER BY iw.time';
 
     con.query(sql, function (error, results) {
         if (error) {

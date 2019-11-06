@@ -24,6 +24,7 @@ router.get('/alertList', function (req, res, next) {
   if (START_DATE) sql += `and time >= '${START_DATE}' `;
   if (END_DATE)   sql += `and time <= '${END_DATE}'`;
 
+  sql += 'ORDER BY DATE';
   con.query(sql, function (error, results) {
     if (error) {
       STATUS_CODE = 90;

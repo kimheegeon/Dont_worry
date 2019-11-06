@@ -7,7 +7,6 @@
   },
   "dependencies": {
     "caver-js": "^1.2.0",
-    "consts": "0.0.2",
     "cookie-parser": "~1.4.4",
     "cron": "^1.7.2",
     "debug": "~2.6.9",
