@@ -4,17 +4,17 @@
     <div class="main" v-if="WaterQ == 1">
      <p class="title">아주 좋음</p>
      <p><img class="location" src="../assets/image/location.png">{{location}}</p>
-     <img class="mainicon" src="../assets/image/smiley.png">
+     <img class="mainicon" src="../assets/image/laughing.png">
     </div>
     <div class="main" v-else-if="WaterQ == 2">
      <p class="title">보통</p>
      <p><img class="location" src="../assets/image/location.png">{{location}}</p>
-     <img class="mainicon" src="../assets/image/neutral.png">
+     <img class="mainicon" src="../assets/image/smiling.png">
     </div>
     <div class="main" v-else-if="WaterQ == 3">
      <p class="title">나쁨</p>
      <p><img class="location" src="../assets/image/location.png">{{location}}</p>
-     <img class="mainicon" src="../assets/image/sadsmiley.png">
+     <img class="mainicon" src="../assets/image/sad.png">
     </div>
      <p class="set_location"><u v-on:click="geolocate()">내 주변 지하수 위치 재설정</u></p>
 
