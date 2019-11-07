@@ -9,7 +9,7 @@ var mysql = require('mysql');
 var jsonfile = require('jsonfile');
 var cors = require('cors');
 
-var consts = require('../consts.json');
+var consts = require('/consts.json');
 var con = mysql.createConnection({
   host: consts.db.host,
   user: consts.db.user,
