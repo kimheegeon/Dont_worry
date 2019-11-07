@@ -29,10 +29,10 @@
                 </tr>
                 <tr v-for="(data, index) in WaterQList" :key="index">
                 <td v-for="(value, key) in columns" :key="key">
-                    <p v-if="key=='AREA'" @click="ShowWaterQ(data['AREA'],data['DATE'])">{{ data[key] }}</p>
-                    <p v-if="key=='WATERQ'" @click="ShowWaterQ(data['AREA'],data['DATE'])">{{ data[key] }}</p>
-                    <p v-if="key=='DATE'" @click="ShowWaterQ(data['AREA'],data['DATE'])">{{ data[key] | moment("YYYY-MM-DD HH:mm:ss") }}</p>
-                    <!--<p v-if="key=='WEATHER'" @click="ShowWaterQ(data['AREA'],data['DATE'])">{{ data[key] }}</p> -->
+                    <p v-if="key=='AREA'" @click="ShowWaterQ(data['AREA'],data['time'])">{{ data[key] }}</p>
+                    <p v-if="key=='WATERQ'" @click="ShowWaterQ(data['AREA'],data['time'])">{{ data[key] }}</p>
+                    <p v-if="key=='time'" @click="ShowWaterQ(data['AREA'],data['time'])">{{ data[key] | moment("YYYY-MM-DD HH:mm:ss") }}</p>
+                    <!-- <p v-if="key=='WEATHER'" @click="ShowWaterQ(data['AREA'],data['time'])">{{ data[key] }}</p> -->
                 </td>
                 </tr>
             </table>
@@ -52,17 +52,19 @@ import 'moment/locale/ko'
 import axios from 'axios'
 import socket from 'socket.io'
 import * as io from 'socket.io-client'
+import url from '../util/url'
 
 var DATE_FORMAT = "LL"
 
 export default {
   name: 'CurrentList',
+  mixins: [url],
   data() {
     return {
       columns: {
         AREA: '지역',
         WATERQ: '수질 데이터',
-        DATE: '날짜',
+        time: '날짜',
         // WEATHER:'날씨(강우량)'
       },
       keyword: "",
@@ -94,6 +96,7 @@ export default {
   },
   created: function() {
     this.getWaterQList()
+    console.log('url',this.url)
   },
   mounted() {
     var area = document.getElementById('start_date')
@@ -112,7 +115,7 @@ export default {
       if(this.end_date !== ""){
         this.end_date = moment(this.end_date).format("YYYY-MM-DD 23:59:59")
       }
-      axios.get('http://127.0.0.1:3000/water/WaterQList', {
+      axios.get(this.url + 'water/WaterQList', {
         params:{
           FREE_WORD: this.keyword,
           START_DATE: this.start_date,
@@ -177,7 +180,7 @@ export default {
     },
     CallSocket:function(){
       console.log('socket')
-      var socket = io.connect('http://localhost:3000')
+      var socket = io.connect(this.url)
       var self = this
       socket.on('alert', function (data) {
         var res = JSON.parse(data)
