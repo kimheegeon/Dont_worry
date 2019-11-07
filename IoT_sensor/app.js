@@ -78,7 +78,7 @@ app.use(function(err, req, res, next) {
 var waterV = ['320','322','322','324','276','58','12','11','11','10','12','11','11','10','12','11','11','10','11','12','12','10','12','11', '11','10','12','12','12','10','12','11','11','10','12','12','12','10'];
 
 
-    var c = fs.readFileSync('/consts.json');
+    var c = fs.readFileSync('./consts.json');
     var consts = JSON.parse(c);
 
     for(var i = 0 ; i < 10 ; i++){
