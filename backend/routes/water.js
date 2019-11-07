@@ -38,7 +38,7 @@ router.get('/checkWaterQ', function (req, res, next) {
     var x;
     var y;
     var address;
-    address = "제주"; // 하드코딩
+    address = "제주시 만덕로 6길 32 일도1동)"; // 하드코딩
 
 
     var sql = "SELECT iw.iot_ID , iw.address , w.turbidity " +
