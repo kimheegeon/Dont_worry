@@ -16,19 +16,19 @@
               <tr>
                 <th>일시</th>
                 <td>
-                  {{search_date}}
+                  {{search_date | moment("YYYY-MM-DD HH:mm:ss")}}
                 </td>
               </tr>
               <tr>
                 <th>질산성 질소(NO3-N)</th>
                 <td>
-                  {{WaterDetail.NO3N}}
+                  <!-- {{WaterDetail.NO3N}} -->
                 </td>
               </tr>
               <tr>
               <th>황화 수소(H2S)</th>
                 <td>
-                  {{WaterDetail.H2S}}
+                  <!-- {{WaterDetail.H2S}} -->
                 </td>
               </tr>
               <tr>
@@ -63,8 +63,12 @@
 import AdminBaseModal from '../Modal/AdminBaseModal'
 import { mapMutations } from 'vuex'
 import axios from 'axios'
+import url from '../util/url'
+import moment from 'moment'
+import 'moment/locale/ko'
 
 export default {
+  mixins: [url],
   components: {
     'ErrorModal': AdminBaseModal,
   },
@@ -73,17 +77,18 @@ export default {
       WaterDetail: [],
       showModalError: false,
       modalErrTitle: '',
-      modalErrMessage: '',
-      url:''
+      modalErrMessage: ''
     }
   },
   props: ['address', 'search_date'],
   methods: {
     getWaterDetail: function() {
-      axios.get('http://127.0.0.1:3000/water/WaterDetail', {
+      var date = moment(this.search_date).format("YYYY-MM-DD HH:mm:ss")
+      console.log('date',date)
+      axios.get(this.url + 'water/WaterDetail', {
         params:{
-          AREA: "제주도북부앞바다",
-          DATE: "2019-05-23 11:22:41"
+          AREA: this.address,
+          DATE: date
         }
       }).then(response => {
         var res = JSON.parse(response.data)
@@ -109,6 +114,7 @@ export default {
       this.getWaterDetail()
       this.WaterDetail.AREA = this.address
       this.WaterDetail.DATE = this.search_date
+      console.log(this.WaterDetail)
   },
   mounted() {
     document.body.setAttribute("style", "overflow: hidden;");

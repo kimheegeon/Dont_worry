@@ -38,9 +38,11 @@ import Nav from '../../src/components/Layout/Nav'
 import BaseModal from './Modal/BaseModal'
 import { mapMutations,mapGetters } from 'vuex'
 import axios from 'axios'
+import url from './util/url'
 
 export default {
   name: 'SendMail',
+  mixins: [url],
   data() {
     return {
       Location:'',
@@ -79,7 +81,7 @@ export default {
       }
       var self = this
       //메일 송신 api 호출
-      axios.get('http://127.0.0.1:3000/report/SendMail', {
+      axios.get(this.url + 'report/SendMail', {
         params:{
           LOCATION: this.Location,
           CONTENTS: this.Contents,

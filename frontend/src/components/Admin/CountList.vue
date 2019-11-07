@@ -31,7 +31,7 @@
                 <td v-for="(value, key, index) in columns" :key="index">
                     <p v-if="key=='AREA'">{{ data[key] }}</p>
                     <p v-if="key=='COUNT'">{{ data[key] }}</p>
-                    <p v-if="key=='DATE'">{{ data[key] | moment("YYYY-MM-DD HH:mm:ss") }}</p>
+                    <p v-if="key=='time'">{{ data[key] | moment("YYYY-MM-DD HH:mm:ss") }}</p>
                 </td>
                 </tr>
             </table>
@@ -47,17 +47,19 @@ import Datepicker from 'vuejs-datepicker'
 import moment from 'moment'
 import 'moment/locale/ko'
 import axios from 'axios'
+import url from '../util/url'
 
 var DATE_FORMAT = "LL"
 
 export default {
   name: 'CurrentList',
+  mixins: [url],
   data() {
     return {
       columns: {
         AREA: '양돈가 위치',
         COUNT: '사육두수',
-        DATE: '날짜'
+        time: '날짜'
       },
       keyword: "",
       start_date:"",
@@ -97,7 +99,7 @@ export default {
       if(this.end_date !== ""){
         this.end_date = moment(this.end_date).format("YYYY-MM-DD 23:59:59")
       }
-      axios.get('http://127.0.0.1:3000/pig/count', {
+      axios.get( this.url + 'pig/count', {
         params:{
           FREE_WORD: this.keyword,
           START_DATE: this.start_date,

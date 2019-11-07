@@ -28,9 +28,11 @@ import Nav from '../../src/components/Layout/Nav'
 import BaseModal from './Modal/BaseModal'
 import { mapMutations,mapGetters } from 'vuex'
 import axios from 'axios'
+import url from './util/url'
 
 export default {
-  name: 'App',
+  name: 'Main',
+  mixins: [url],
   data(){
     return {
       WaterQ: '',
@@ -55,7 +57,7 @@ export default {
     checkWaterQ: function() {
       var self = this
       //수질 확인 api 호출
-      axios.get('http://127.0.0.1:3000/water/checkWaterQ', {
+      axios.get(this.url + 'water/checkWaterQ', {
         params:{
           LONGITUDE: this.lng,
           LATITUDE: this.lat

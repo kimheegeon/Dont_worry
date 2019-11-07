@@ -49,11 +49,13 @@ import Datepicker from 'vuejs-datepicker'
 import moment from 'moment'
 import 'moment/locale/ko'
 import axios from 'axios'
+import url from '../util/url'
 
 var DATE_FORMAT = "LL"
 
 export default {
   name: 'CurrentList',
+  mixins: [url],
   data() {
     return {
       columns: {
@@ -101,7 +103,7 @@ export default {
       if(this.end_date !== ""){
         this.end_date = moment(this.end_date).format("YYYY-MM-DD 23:59:59")
       }
-      axios.get('http://127.0.0.1:3000/report/alertList', {
+      axios.get(this.url + 'report/alertList', {
         params:{
           FREE_WORD: this.keyword,
           START_DATE: this.start_date,
