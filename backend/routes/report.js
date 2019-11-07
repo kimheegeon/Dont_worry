@@ -2,12 +2,13 @@ var express = require('express');
 var router = express.Router();
 var moment = require('moment');
 var mysql = require('mysql');
-var db = require('../DB_config');
+var nodemailer = require('nodemailer');
+var consts = require('../consts.json');
 var con = mysql.createConnection({
-  host: db.host,
-  user: db.user,
-  password: db.password,
-  database: db.database
+  host: consts.db.host,
+  user: consts.db.user,
+  password: consts.db.password,
+  database: consts.db.database
 })
 
 /* GET home page. */
@@ -61,6 +62,25 @@ router.get('/SendMail', function (req, res, next) {
       res.json(JSON.stringify(result));
     }
   });
+
+let transporter = nodemailer.createTransport({
+  service: 'gmail',
+    auth: {
+      user: consts.email,  // gmail 계정 아이디를 입력
+      pass: consts.mPassword          // gmail 계정의 비밀번호를 입력
+    }
+});
+
+let mailOptions = {
+  from: consts.email,    // 발송 메일 주소 (위에서 작성한 gmail 계정 아이디)
+  to: "devMailer2017@gmail.com",                     // 수신 메일 주소
+  subject: 'WARNNING',   // 제목
+  text: `Water pollution detect!!!!! \nLocation : ${LOCATION}\nFrom : ${MAIL}\nContents : ${CONTENTS}`  // 내용
+}
+//메일 전송
+transporter.sendMail(option);
+
+
 
 
 });

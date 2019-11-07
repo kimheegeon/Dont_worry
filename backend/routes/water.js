@@ -1,37 +1,30 @@
 var express = require('express');
 var router = express.Router();
 var mysql = require('mysql');
-var db = require('../DB_config');
+var Standard = require('../public/standards/standard.json')
+var consts = require('../consts.json');
 var con = mysql.createConnection({
-    host: db.host,
-    user: db.user,
-    password: db.password,
-    database: db.database
+  host: consts.db.host,
+  user: consts.db.user,
+  password: consts.db.password,
+  database: consts.db.database
 })
-
-// var Standard = require("../public/standards/standard.json");
-// iot기기에서 받은 탁도정보 detect
-router.get('/detect', function (req, res, next) {
-    var data = req.query.turbidity;
-    var iot_ID = req.query.iot_ID;
-
-    // Standard.forEach((element) =>{
-    //     if(element == iot_ID)
-    // })
-
-
-});
 
 router.get('/Standard', function(req,res,next){
     var iot_ID = req.query.iot_ID;
 
-    var stan ='';
+
+    console.log(iot_ID);
+    console.log(Standard.standard);
+    var stan =""
     Standard.standard.some(element=>{
-        if(element.iot_ID == iot_ID){
-            res.json(JSON.stringify(element));
+        if(element.iot_ID==iot_ID){
+            console.log(element.stan);
+            stan = element;
         }
-        return element.iot_ID==iot_ID;
     })
+
+    res.json(stan);
 
 });
 

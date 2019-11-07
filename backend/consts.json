@@ -1,11 +1,10 @@
 {
-    "iot_ID":"3",
-    "Location":"제주센터",
-    "serverhost":"localhost",
     "db":{
         "host" : "database-1.cpsjgdlmaban.ap-northeast-2.rds.amazonaws.com",
         "user" : "admin",
         "password" : "dontworry1234",
         "database" : "dontworry"
-    }
+    },
+    "email" : "devmailer2019@gmail.com",
+    "mPassword" : "dontworry1234"
 }
