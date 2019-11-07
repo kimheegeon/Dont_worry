@@ -1,13 +1,13 @@
 var express = require('express');
 var router = express.Router();
 var mysql = require('mysql');
-var db = require('../DB_config');
+var consts = require('../consts.json');
 var con = mysql.createConnection({
-    host: db.host,
-    user: db.user,
-    password: db.password,
-    database: db.database
-  })
+  host: consts.db.host,
+  user: consts.db.user,
+  password: consts.db.password,
+  database: consts.db.database
+})
 
 /* GET home page. */
 router.get('/count', function (req, res, next) {
