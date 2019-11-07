@@ -7,6 +7,7 @@ var jsonfile = require('jsonfile');
 var CronJob = require('cron').CronJob;
 var request = require('request');
 var consts = require('./consts.json');
+var fs = require('fs');
 
 
 var Caver = require('./caver');
@@ -41,28 +42,55 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-const tempSensor = mcpadc.open(6, err => {
-  if (err) throw err;
-  var authComplete = false;
+// get data and send data 
+// const tempSensor = mcpadc.open(6, err => {
+//   if (err) throw err;
+//   var authComplete = false;
 
-  setInterval(_ => {
-    tempSensor.read((err, reading) => {
-      if (err) throw err;
-      //console.log((reading.value * 3.3 - 0.5) * 100);
-	var value = reading.value * 100;
-	var value_round = Math.round(value);
-	console.log(value_round);
-	if(!authComplete){
-	  Caver.start(value_round);
-	  authComplete = true;
-	}
-        else{
-	  Caver.addWaterDatas(value_round);
-	}
-    });
-  }, 8000);
-});
+//   setInterval(_ => {
+//     tempSensor.read((err, reading) => {
+//       if (err) throw err;
+//       //console.log((reading.value * 3.3 - 0.5) * 100);
+// 	var value = reading.value * 100;
+// 	var value_round = Math.round(value);
+// 	console.log(value_round);
+// 	if(!authComplete){
+// 	  Caver.start(value_round);
+// 	  authComplete = true;
+// 	}
+//   else{
+//     Caver.addWaterDatas(value_round);
+    
+  
+//     var c = fs.readFileSync('/consts.json');
+//     var consts = JSON.parse(c);
 
+//     if(value_round/consts.standard <0.9){
+//       request.get(`http://${consts.serverhost}:3000/alert?IoT_id=${consts.iot_ID}&turbidity=${value_round}&Location=${consts.Location}&standard=${consts.standard}`,(error,response,body)=>{
+//         console.log("alert!!!");
+//       });
+//     }
+
+// 	}
+//     });
+//   }, 8000);
+// });
+var waterV = ['320','322','322','324','276','58','12','11','11','10','12','11','11','10','12','11','11','10','11','12','12','10','12','11', '11','10','12','12','12','10','12','11','11','10','12','12','12','10'];
+
+
+    var c = fs.readFileSync('/consts.json');
+    var consts = JSON.parse(c);
+
+    for(var i = 0 ; i < 10 ; i++){
+      setTimeout(() => {
+        if(waterV[i]/consts.standard <0.9){
+          request.get(`http://${consts.serverhost}:3000/alert?IoT_id=${consts.iot_ID}&turbidity=${value_round}&Location=${consts.Location}&standard=${consts.standard}`,(error,response,body)=>{
+            console.log("alert!!!");
+          });
+        }
+    
+  }, 1000);
+}
 
 //get standard
 new CronJob('0 30 7 * * *', function() {

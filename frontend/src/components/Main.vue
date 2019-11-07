@@ -33,8 +33,8 @@ export default {
   name: 'App',
   data(){
     return {
-      WaterQ: '',
-      location:"",
+      WaterQ: '3',
+      location:"제주 제주시 첨단로 330",
       lat:'',
       lng:'',
       showModalError: false,
@@ -123,7 +123,7 @@ export default {
     },
   },
   created() {
-    this.geolocate()
+    //this.geolocate()
     this.setWaterQ(this.WaterQ)
     console.log('WaterQ',this.WaterQ)
   }

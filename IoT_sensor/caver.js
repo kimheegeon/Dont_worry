@@ -2,15 +2,15 @@ const Caver = require('caver-js')
 const moment = require('moment')
 const nconf = require('nconf')
 var mysql = require('mysql');
-var db = require('./DB_config');
+var consts = require('./consts');
 var request = require('request');
 var consts = require('./consts.json');
 
 var con = mysql.createConnection({
-  host: db.host,
-  user: db.user,
-  password: db.password,
-  database: db.database
+  host: consts.db.host,
+  user: consts.db.user,
+  password: consts.db.password,
+  database: consts.db.database
 })
 
 nconf.argv().env().file({file: './scdefault.json'});

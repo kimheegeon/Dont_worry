@@ -5,18 +5,16 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var CronJob = require('cron').CronJob;
 var moment = require('moment');
-var fs = require('fs');
 var mysql = require('mysql');
-var db = require('./DB_config');
 var jsonfile = require('jsonfile');
 var cors = require('cors');
 
-
+var consts = require('../consts.json');
 var con = mysql.createConnection({
-  host: db.host,
-  user: db.user,
-  password: db.password,
-  database: db.database
+  host: consts.db.host,
+  user: consts.db.user,
+  password: consts.db.password,
+  database: consts.db.database
 })
 
 var pigRouter = require('./routes/pig');
@@ -62,7 +60,7 @@ app.use(function(err, req, res, next) {
 // 매일 7시에 전날 측정치를 통해 기준치 설정
 new CronJob('0 0 7 * * *', function() {
 
-  sql = "SELECT iot_ID, AVG(turbidity)"+
+  sql = "SELECT iot_ID, AVG(turbidity) stan "+
         "FROM water " +
         "WHERE DATE_FORMAT(time, %Y%m%d) =? and " +
         "GROUP BY iot_ID" ;
@@ -96,39 +94,47 @@ app.io.set('origins','*:*');
 
 app.get("/alert",function(req,res,next){
 
-  app.io.on('connection', function(socket) {
-    /*
-    블록체인의 값을 읽어와서 해당값이 기준치를 초과하면 client에 전송
-    */
-    // app.get("/alert",function (req, res, next) {
-    //   console.log(req.query);
-    //   var alert = req.query;
-    //   app.io.emit("alert",JSON.stringify(alert));
-    // });
+  console.log(req.query);
+  var el = new Object();
+  el.standard = req.query.standard;
+  el.Location = req.query.Location;
+  el.time = moment().format("YYYY-MM-DD HH:mm:ss");
+  el.turbidity = req.query.turbidity;
+  app.io.emit("alert",JSON.stringify(req.query));
 
-    console.log("socket connect!!");
-    // console.log(socket);
+  // app.io.on('connection', function(socket) {
+  //   /*
+  //   블록체인의 값을 읽어와서 해당값이 기준치를 초과하면 client에 전송
+  //   */
+  //   // app.get("/alert",function (req, res, next) {
+  //   //   console.log(req.query);
+  //   //   var alert = req.query;
+  //   //   app.io.emit("alert",JSON.stringify(alert));
+  //   // });
+
+  //   console.log("socket connect!!");
+  //   // console.log(socket);
     
-    var waterV = ['320','322','322','324','276','58','12','11','11','10','12','11','11','10','12','11','11','10','11','12','12','10','12','11', '11','10','12','12','12','10','12','11','11','10','12','12','12','10'];
+  //   var waterV = ['320','322','322','324','276','58','12','11','11','10','12','11','11','10','12','11','11','10','11','12','12','10','12','11', '11','10','12','12','12','10','12','11','11','10','12','12','12','10'];
     
-    // console.log(req.query);
-    // var el = new Object();
-    // el.standard = req.query.standard;
-    // el.Location = req.query.Location;
-    // el.time = moment().format("YYYY-MM-DD HH:mm:ss");
-    // el.turbidity = req.query.turbidity;
-    // app.io.emit("alert",JSON.stringify(el));
+  //   // console.log(req.query);
+  //   // var el = new Object();
+  //   // el.standard = req.query.standard;
+  //   // el.Location = req.query.Location;
+  //   // el.time = moment().format("YYYY-MM-DD HH:mm:ss");
+  //   // el.turbidity = req.query.turbidity;
+  //   // app.io.emit("alert",JSON.stringify(el));
     
-    waterV.some(element=>{
-      if(element<=150){
-          var el = new Object();
-          el.Location = "제주혁신성장센터";
-          el.time = moment().format("YYYY-MM-DD HH:mm:ss");
-          el.turbidity = element;
-          app.io.emit("alert",JSON.stringify(el));
-        }
-        return element <150
-    })
-  });
+  //   waterV.some(element=>{
+  //     if(element<=150){
+  //         var el = new Object();
+  //         el.Location = "제주혁신성장센터";
+  //         el.time = moment().format("YYYY-MM-DD HH:mm:ss");
+  //         el.turbidity = element;
+  //         app.io.emit("alert",JSON.stringify(el));
+  //       }
+  //       return element <150
+  //   })
+  // });
 });
 module.exports = app;
