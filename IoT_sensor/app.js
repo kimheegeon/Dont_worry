@@ -78,16 +78,16 @@ app.use(function(err, req, res, next) {
 var waterV = ['320','322','322','324','276','58','12','11','11','10','12','11','11','10','12','11','11','10','11','12','12','10','12','11', '11','10','12','12','12','10','12','11','11','10','12','12','12','10'];
 
 
-    var c = fs.readFileSync('./consts.json');
-    var consts = JSON.parse(c);
+var c = fs.readFileSync('./consts.json');
+var consts = JSON.parse(c);
 
-    for(var i = 0 ; i < 10 ; i++){
-      setTimeout(() => {
-        if(waterV[i]/consts.standard <0.9){
-          request.get(`http://${consts.serverhost}:3000/alert?IoT_id=${consts.iot_ID}&turbidity=${value_round}&Location=${consts.Location}&standard=${consts.standard}`,(error,response,body)=>{
-            console.log("alert!!!");
-          });
-        }
+  for(var i = 0 ; i < 10 ; i++){
+    setTimeout(() => {
+      if(waterV[i]/consts.standard <0.9){
+        request.get(`http://${consts.serverhost}:3000/alert?IoT_id=${consts.iot_ID}&turbidity=${value_round}&Location=${consts.Location}&standard=${consts.standard}`,(error,response,body)=>{
+          console.log("alert!!!");
+        });
+      }
     
   }, 1000);
 }

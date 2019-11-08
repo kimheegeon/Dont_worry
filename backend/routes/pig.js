@@ -23,7 +23,7 @@ router.get('/count', function (req, res, next) {
   if(START_DATE)  sql+=`and p.time >= '${START_DATE}' `;
   if(END_DATE)    sql+=`and p.time <= '${END_DATE}' `;
 
-  sql += 'ORDER BY p.time dsc';
+  sql += 'ORDER BY p.time desc';
 
   con.query(sql, function (error, results) {
     if (error) {
