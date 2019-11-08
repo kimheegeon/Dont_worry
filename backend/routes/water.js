@@ -124,7 +124,7 @@ router.get('/WaterQList', function (req, res, next) {
     if (START_DATE) sql += `and w.time >= '${START_DATE}' `;
     if (END_DATE)   sql += `and w.time <= '${END_DATE}' `;
 
-    sql += 'ORDER BY w.time';
+    sql += 'ORDER BY w.time dsc';
 
     con.query(sql, function (error, results) {
         if (error) {
