@@ -29,6 +29,8 @@ import BaseModal from './Modal/BaseModal'
 import { mapMutations,mapGetters } from 'vuex'
 import axios from 'axios'
 import url from './util/url'
+import socket from 'socket.io'
+import * as io from 'socket.io-client'
 
 export default {
   name: 'Main',
@@ -37,8 +39,8 @@ export default {
     return {
       WaterQ: '',
       location:'',
-      lat:'',
-      lng:'',
+      lat:'126.5337625',
+      lng:'33.5158542',
       showModalError: false,
       modalErrTitle: '',
       modalErrMessage: '',
@@ -89,45 +91,80 @@ export default {
     },
     geolocate: function() {
       var self = this
-      navigator.geolocation.getCurrentPosition(position => {
-        self.center = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude
-        };
-        console.log('location',self.center.lat)
-        self.lat = self.center.lat
-        self.lng = self.center.lng
-        self.checkWaterQ()
-      },
-      error => {
-        if(self.position_error_flg == false)
-        {
-          var err_msg = "";
-          switch(error.code)
-          {
-            case 1:
-              err_msg = "위치정보 이용을 허용해주세요.";
-              break;
-            case 2:
-              err_msg = "디바이스 위치가 부정확합니다.";
-              break;
-            case 3:
-              err_msg = "단말기의 통신상태를 확인하세요.(타임아웃)";
-              break;
-          }
-          self.modalErrTitle = '위치정보 획득 실패'
-          self.modalErrMessage = err_msg
-          self.showModalError = true
-          self.position_error_flg = true
-        }
-      }
-      );
+      
+      // if(navigator.platform == 'Win16' || navigator.platform == 'Win32' || navigator.platform == 'Win64' 
+      //     || navigator.platform == 'MacIntel' || navigator.platform == 'Mac'){ 
+      //   console.log("navigator.platform : ", navigator.platform);
+      //   alert("pc입니다")
+      // }else{
+      //   alert("모바일입니다")
+      //}
+     
+      // navigator.geolocation.getCurrentPosition(position => {
+      //   self.center = {
+      //     lat: position.coords.latitude,
+      //     lng: position.coords.longitude
+      //   };
+      //   console.log('location',self.center.lat)
+
+      //   self.lat = 126.5337625
+      //   self.lng = 33.5158542
+      //   self.checkWaterQ()
+      // },
+      // error => {
+      //   if(self.position_error_flg == false)
+      //   {
+      //     var err_msg = "";
+      //     switch(error.code)
+      //     {
+      //       case 1:
+      //         err_msg = "위치정보 이용을 허용해주세요.";
+      //         break;
+      //       case 2:
+      //         err_msg = "디바이스 위치가 부정확합니다.";
+      //         break;
+      //       case 3:
+      //         err_msg = "단말기의 통신상태를 확인하세요.(타임아웃)";
+      //         break;
+      //     }
+      //     self.modalErrTitle = '위치정보 획득 실패'
+      //     self.modalErrMessage = err_msg
+      //     self.showModalError = true
+      //     self.position_error_flg = true
+      //   }
+      // },
+      // {timeout: 10000, maximumAge:Infinity,}
+      // );
+
+      this.watchID = navigator.geolocation.watchPosition((position) => {
+        var lastPosition = JSON.stringify(position);
+        console.log(lastPosition);
+      });
     },
+    CallSocket:function(){
+      console.log('socket')
+      var socket = io.connect(this.url)
+      var self = this
+      socket.on('alert', function (data) {
+        var res = JSON.parse(data)
+        self.WaterQ = res
+        self.$store.commit('auth/setWaterQ',self.WaterQ)
+        console.log('SocketRes',res)
+      })
+    }
   },
   created() {
-    this.geolocate()
+    //this.geolocate()
+    this.checkWaterQ()
     this.setWaterQ(this.WaterQ)
     console.log('WaterQ',this.WaterQ)
+  },
+  watch: {
+    WaterQ: function(val, oldVal) {
+      if(val !== oldVal){
+        this.checkWaterQ()
+      }
+    }
   }
 }
 </script>

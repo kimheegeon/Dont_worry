@@ -53,6 +53,14 @@ app.get("/alert",function(req,res,next){
   el.Location = req.query.Location;
   el.time = moment().format("YYYY-MM-DD HH:mm:ss");
   el.turbidity = req.query.turbidity;
+  if(req.query.status=="soso"){
+    el.waterQ = 2;
+  }else if(req.query.status=="good"){
+    el.waterQ = 3;
+  }else if(req.query.status =="bad"){
+    el.waterQ = 1;
+  }
+  el.status = req.query.status;
   console.log(el);
   app.io.emit("alert",JSON.stringify(el));
   res.send("complete");
