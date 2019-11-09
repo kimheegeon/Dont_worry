@@ -1,6 +1,7 @@
 <template>
   <div class="nav">
-    <nav class="navbar navbar-expand-md fixed-top" :class="classObject">
+    <nav class="navbar navbar-expand-md fixed-top" :class="classObject" style="position:relation;">
+      <img src="../../assets/image/dontworrylogo3.png" class="adminHeaderLogo" style="width:100px; position:absolute; left: 10px; top:-20px;"/>
       <!-- on일때만 표시 -->
       <button v-on:click="fire" type="button" class="btn-sidemenu" :class="classObject" data-toggle="modal"><img src="../../assets/image/sidemenu.png" /></button>
       <transition name="show">

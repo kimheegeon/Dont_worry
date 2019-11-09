@@ -88,7 +88,7 @@ form::after{
 
 .form-user input {
   height: 40px;
-  border-radius: 5px;
+  border-radius: 2px;
   width: 100%;
 }
 
@@ -136,6 +136,7 @@ table {
         border-right: none;
       }
     }
+    background-color: #DDE2F2;
   }
   tr {
     border-top: 1px solid #e5e5e5;
@@ -154,17 +155,21 @@ table {
     }
   }
   th {
-    background-color: #eeeeee;
+    //background-color: #C6CEE8;
+    background-color: rgba(255, 251, 0, 0.63);
     text-align: center;
     padding-right: 1%;
+    font-size: 14px;
   }
   td {
     // width:22%;
     width: 14vw;
     text-align: right;
     padding-right: 1%;
+    font-size: larger;
     p {
       margin: 0;
+      text-align: center;
       label {
         margin: 0;
       }
@@ -173,4 +178,9 @@ table {
       text-decoration: underline;
     }
   }
+}
+.btn-info {
+  color: #fff;
+  background-color: #5c77da;
+  border-color: #17a2b8;
 }

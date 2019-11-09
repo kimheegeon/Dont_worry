@@ -159,15 +159,19 @@ table {
     }
   }
   th {
-    background-color: #eeeeee;
+    //background-color: #eeeeee;
+    background-color: rgba(255, 251, 0, 0.63);
     text-align: center;
     padding-right: 1%;
+    font-size: 14px;
   }
   td {
     // width:22%;
     width: 14vw;
-    text-align: right;
+    text-align: center;
     padding-right: 1%;
+    font-size: larger;
+    
     p {
       margin: 0;
       label {

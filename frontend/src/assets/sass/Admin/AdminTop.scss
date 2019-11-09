@@ -26,6 +26,13 @@ ul{
     width: 108%;
     padding-left: 10px;
     line-height: 70px;
+    font-size: 15px;
+    font-weight: 600;
+}
+.text-dark:hover{
+    //background-color: rgb(174, 198, 221);
+    //background-color: rgb(177, 198, 218);
+    background-color: rgb(253, 195, 87);
 }
 .is-active {
     background-color: #ffffff;

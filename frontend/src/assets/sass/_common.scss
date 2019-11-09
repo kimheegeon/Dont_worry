@@ -40,8 +40,9 @@ $breakpoint-down: (
 }
 html, body {
   //height: 100vh;
-  height: calc(100vh - 53px);
+  height: 100vh;
   display: block;
+  overflow: hidden;
 }
 
 body {
@@ -119,8 +120,12 @@ div {
 }
 
 .btn.btn-default {
-  background-color: hsl(22, 97%, 72%);
-  color: #fff !important;
+  //background-color: hsl(22, 97%, 72%);
+  //background-color: rgb(138, 157, 223);
+  background-color: rgb(255, 174, 0);
+  color: rgb(61, 53, 5) !important;
+  border-color: rgb(255, 174, 0);
+  font-weight: 800;
 }
 
 .bg-info {
