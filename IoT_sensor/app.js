@@ -66,7 +66,6 @@ var authComplete = false;
    else{
      Caver.addWaterDatas(data.toString());
    
-  
      var c = fs.readFileSync('./consts.json');
      var consts = JSON.parse(c);
      if(data.toString()/consts.standard <0.9){

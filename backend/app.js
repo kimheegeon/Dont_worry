@@ -40,6 +40,23 @@ app.use('/weather', weatherRouter);
 app.use('/report', reportRouter);
 app.use('/pig', pigRouter);
 
+app.io.on("connect",function(){
+  console.log("connect");
+})
+
+app.io.set('origins','*:*');
+
+app.get("/alert",function(req,res,next){
+
+  var el = new Object();
+  el.standard = req.query.standard;
+  el.Location = req.query.Location;
+  el.time = moment().format("YYYY-MM-DD HH:mm:ss");
+  el.turbidity = req.query.turbidity;
+  console.log(el);
+  app.io.emit("alert",JSON.stringify(el));
+  res.send("complete");
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -88,53 +105,6 @@ new CronJob('0 0 7 * * *', function() {
 //   res.header("Access-Control-Allow-Headers", "X-Requested-With"); next(); 
 // });
 
-
-app.io.set('origins','*:*');
 /* socket io */
 
-app.get("/alert",function(req,res,next){
-
-  console.log(req.query);
-  var el = new Object();
-  el.standard = req.query.standard;
-  el.Location = req.query.Location;
-  el.time = moment().format("YYYY-MM-DD HH:mm:ss");
-  el.turbidity = req.query.turbidity;
-  app.io.emit("alert",JSON.stringify(req.query));
-
-  // app.io.on('connection', function(socket) {
-  //   /*
-  //   블록체인의 값을 읽어와서 해당값이 기준치를 초과하면 client에 전송
-  //   */
-  //   // app.get("/alert",function (req, res, next) {
-  //   //   console.log(req.query);
-  //   //   var alert = req.query;
-  //   //   app.io.emit("alert",JSON.stringify(alert));
-  //   // });
-
-  //   console.log("socket connect!!");
-  //   // console.log(socket);
-    
-  //   var waterV = ['320','322','322','324','276','58','12','11','11','10','12','11','11','10','12','11','11','10','11','12','12','10','12','11', '11','10','12','12','12','10','12','11','11','10','12','12','12','10'];
-    
-  //   // console.log(req.query);
-  //   // var el = new Object();
-  //   // el.standard = req.query.standard;
-  //   // el.Location = req.query.Location;
-  //   // el.time = moment().format("YYYY-MM-DD HH:mm:ss");
-  //   // el.turbidity = req.query.turbidity;
-  //   // app.io.emit("alert",JSON.stringify(el));
-    
-  //   waterV.some(element=>{
-  //     if(element<=150){
-  //         var el = new Object();
-  //         el.Location = "제주혁신성장센터";
-  //         el.time = moment().format("YYYY-MM-DD HH:mm:ss");
-  //         el.turbidity = element;
-  //         app.io.emit("alert",JSON.stringify(el));
-  //       }
-  //       return element <150
-  //   })
-  // });
-});
 module.exports = app;

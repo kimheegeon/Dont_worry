@@ -25,7 +25,7 @@ router.get('/alertList', function (req, res, next) {
   if (START_DATE) sql += `and time >= '${START_DATE}' `;
   if (END_DATE)   sql += `and time <= '${END_DATE}'`;
 
-  sql += 'ORDER BY DATE';
+  sql += 'ORDER BY DATE desc';
   con.query(sql, function (error, results) {
     if (error) {
       STATUS_CODE = 90;
@@ -57,28 +57,29 @@ router.get('/SendMail', function (req, res, next) {
       throw error;
     }
     else {
+      let transporter = nodemailer.createTransport({
+        service: 'gmail',
+          auth: {
+            user: consts.email,  // gmail 계정 아이디를 입력
+            pass: consts.mPassword          // gmail 계정의 비밀번호를 입력
+          }
+      });
+      
+      let mailOptions = {
+        from: consts.email,    // 발송 메일 주소 (위에서 작성한 gmail 계정 아이디)
+        to: "devMailer2017@gmail.com",                     // 수신 메일 주소
+        subject: 'WARNNING',   // 제목
+        text: `Water pollution detect!!!!! \nLocation : ${LOCATION}\nFrom : ${MAIL}\nContents : ${CONTENTS}`  // 내용
+      }
+      //메일 전송
+      transporter.sendMail(mailOptions);
+
       var result = new Object();
       result.STATUS_CODE = STATUS_CODE;
       res.json(JSON.stringify(result));
     }
   });
 
-let transporter = nodemailer.createTransport({
-  service: 'gmail',
-    auth: {
-      user: consts.email,  // gmail 계정 아이디를 입력
-      pass: consts.mPassword          // gmail 계정의 비밀번호를 입력
-    }
-});
-
-let mailOptions = {
-  from: consts.email,    // 발송 메일 주소 (위에서 작성한 gmail 계정 아이디)
-  to: "devMailer2017@gmail.com",                     // 수신 메일 주소
-  subject: 'WARNNING',   // 제목
-  text: `Water pollution detect!!!!! \nLocation : ${LOCATION}\nFrom : ${MAIL}\nContents : ${CONTENTS}`  // 내용
-}
-//메일 전송
-transporter.sendMail(option);
 
 
 

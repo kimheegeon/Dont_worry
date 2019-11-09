@@ -31,6 +31,7 @@
                 <td v-for="(value, key, index) in columns" :key="index">
                     <p v-if="key=='AREA'">{{ data[key] }}</p>
                     <p v-if="key=='COUNT'">{{ data[key] }}</p>
+                    <p v-if="key=='AMOUNT'">{{ data[key] }}</p>
                     <p v-if="key=='time'">{{ data[key] | moment("YYYY-MM-DD HH:mm:ss") }}</p>
                 </td>
                 </tr>
@@ -59,6 +60,7 @@ export default {
       columns: {
         AREA: '양돈가 위치',
         COUNT: '사육두수',
+        AMOUNT: '예상 배출량',
         time: '날짜'
       },
       keyword: "",
@@ -113,6 +115,9 @@ export default {
         if(res.STATUS_CODE == '00'){
           if(Object.keys(res.CountList).length > 0){
             this.CountList = res.CountList
+            for(var i =0; i < Object.keys(res.CountList).length; i++){
+              this.CountList[i]['AMOUNT'] = this.CountList[i].COUNT * 35
+            }  
           } else {
             this.CountList = []
             this.totalPage = 0

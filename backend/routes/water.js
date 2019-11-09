@@ -38,14 +38,14 @@ router.get('/checkWaterQ', function (req, res, next) {
     var x;
     var y;
     var address;
-    address = "제주"; // 하드코딩
+    address = "제주시 만덕로 6길 32 일도1동)"; // 하드코딩
 
 
     var sql = "SELECT iw.iot_ID , iw.address , w.turbidity " +
               "FROM IoT_water iw, water w " +
               "WHERE iw.address = ? and " +
                     "iw.iot_ID = w.iot_ID " +
-              'ORDER BY TIME';
+              'ORDER BY TIME desc';
 
 
     con.query(sql, [address], function (error, results) {
@@ -124,7 +124,7 @@ router.get('/WaterQList', function (req, res, next) {
     if (START_DATE) sql += `and w.time >= '${START_DATE}' `;
     if (END_DATE)   sql += `and w.time <= '${END_DATE}' `;
 
-    sql += 'ORDER BY w.time';
+    sql += 'ORDER BY w.time desc';
 
     con.query(sql, function (error, results) {
         if (error) {
