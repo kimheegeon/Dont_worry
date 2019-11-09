@@ -23,6 +23,8 @@
     "node-gyp": "^6.0.0",
     "python": "0.0.4",
     "request": "^2.88.0",
-    "spi-device": "^3.0.0"
+    "serialport": "^8.0.5",
+    "spi-device": "^3.0.0",
+    "sync-request": "^6.1.0"
   }
 }

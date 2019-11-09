@@ -25,7 +25,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 var authComplete = false;
 var list = [];
 var pigCnt = 0;
-cron.schedule('*/8 * * * * *', function () {
+cron.schedule('*/7 * * * * *', function () {
   list = [];
   if(!authComplete){
     Caver.start(pigCnt);
@@ -37,12 +37,12 @@ cron.schedule('*/8 * * * * *', function () {
 }).start();
 
 rc522(function(rfidSerialNumber){
-  console.log("List",list);
   if(list.indexOf(rfidSerialNumber) >= 0){
 	//do nothing
-	console.log("already in!");
+	//console.log("already in!");
   } else if(list.indexOf(rfidSerialNumber) == -1){
-	list.push(rfidSerialNumber);
+    list.push(rfidSerialNumber);
+    console.log("RFID List : ",list);
   }
   pigCnt = list.length;
 });

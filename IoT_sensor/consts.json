@@ -1,11 +1,19 @@
 {
-    "iot_ID":"3",
+    "iot_ID":"1",
     "Location":"제주센터",
-    "serverhost":"localhost",
+    "serverhost":"http://dontworry-env-2.bs63khyer9.ap-northeast-2.elasticbeanstalk.com/",
+    "localhost" : "192.168.11.157",
+    "standard":"600",
     "db":{
         "host" : "database-1.cpsjgdlmaban.ap-northeast-2.rds.amazonaws.com",
         "user" : "admin",
         "password" : "dontworry1234",
+        "database" : "dontworry"
+    },
+    "db2":{
+        "host" : "192.168.11.157",
+        "user" : "root",
+        "pasword": "root",
         "database" : "dontworry"
     }
 }

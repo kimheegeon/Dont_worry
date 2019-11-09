@@ -1,12 +1,17 @@
 {
-    "db":{
+    "db2":{
         "host" : "database-1.cpsjgdlmaban.ap-northeast-2.rds.amazonaws.com",
         "user" : "admin",
         "password" : "dontworry1234",
         "database" : "dontworry"
     },
-    "iot_ID":"2",
-    "standard":"150",
+    "db":{
+        "host" : "192.168.11.157",
+        "user" : "root",
+        "password": "root",
+        "database" : "dontworry"
+    },
+    "iot_ID":"5",
     "Location":"제주혁신센터",
     "serverhost":"localhost"
 }

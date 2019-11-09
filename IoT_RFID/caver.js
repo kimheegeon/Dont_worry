@@ -1,15 +1,13 @@
 const Caver = require('caver-js')
 const nconf = require('nconf')
 var mysql = require('mysql');
-var db = require('./DB_config');
-
+var consts = require('./consts.json');
 var con = mysql.createConnection({
-  host: db.host,
-  user: db.user,
-  password: db.password,
-  database: db.database
+  host: consts.db.host,
+  user: consts.db.user,
+  password: consts.db.password,
+  database: consts.db.database
 })
-
 const config = {
   rpcURL : 'https://api.baobab.klaytn.net:8651',
 }
@@ -63,10 +61,10 @@ const caver = {
   putPigCnt: async function(pigCnt) {
     const walletInstance = this.getWallet();
     const time = new Date().toString();
-    const rfidIP = '121.234.211.12';  //example ip address
+    const rfidIP = '176.53.10.12';  //example ip address
     const pigCount = '' + pigCnt;
     console.log("pigCnt: ", pigCount);
-    
+    console.log("rfidIP: ", rfidIP);
     await agContract.methods.putPigCnt(rfidIP, pigCount, time).send({
       from : walletInstance.address,
       gas : '250000',
@@ -76,10 +74,10 @@ const caver = {
     .once('transactionHash', (txHash) => {
       console.log(`txHash: ${txHash}`);
 
-      //sql = "INSERT INTO pig(iot_ID,pig,time,tx_hash) values(?,?,now(),?)";
-      //con.query(sql,[1, pigCnt, txHash],function(error,results){
-       // if(error) throw error;
-      //});
+      sql = "INSERT INTO pig(iot_ID,pig,time,tx_hash) values(?,?,now(),?)";
+      con.query(sql,[5, pigCnt, txHash],function(error,results){
+        if(error) throw error;
+      });
     });
   }
 };

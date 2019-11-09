@@ -2,9 +2,9 @@ const Caver = require('caver-js')
 const moment = require('moment')
 const nconf = require('nconf')
 var mysql = require('mysql');
-var consts = require('./consts');
-var request = require('request');
 var consts = require('./consts.json');
+var request = require('request');
+
 
 var con = mysql.createConnection({
   host: consts.db.host,
@@ -39,7 +39,7 @@ const caver = {
         const privateKey = cav.klay.accounts.decrypt(auth.keystore, auth.password).privateKey;
         this.integrateWallet(privateKey);
         caver.addWaterDatas(waterVal);
-      } catch (e){
+      } catch (error){
         console.log("handleLogin error : ", error);
       }
     }
@@ -78,10 +78,10 @@ const caver = {
       //   request.get(`http://localhost:3000/alert?turbidity=${waterValue}&standard=${consts.standard}&Location=${consts.Location}`);
       // }
 
-      //sql = "INSERT INTO water(iot_ID,turbidity,time,waterq,tx_hash) values(?,?,now(),?,?)";
-      //con.query(sql,[2,waterVal,40,txHash],function(error,results){
-       // if(error) throw error;
-      //});
+      sql = "INSERT INTO water(iot_ID,turbidity,time,waterq,tx_hash) values(?,?,?,?,?)";
+      con.query(sql,[2,waterVal,moment().format("YYYY--MM-DD HH:mm:ss"),40,txHash],function(error,results){
+        if(error) throw error;
+      });
     });
     
   },
