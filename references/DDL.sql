@@ -29,7 +29,7 @@ CREATE TABLE report (
 	comments  VARCHAR(5000) NULL,     -- 신고내용
 	mail      VARCHAR(25)   NULL,     -- 메일
 	address   VARCHAR(50)   NULL,     -- 신고지역
-	time      DATE          NULL      -- 신고시간
+	time      DATETIME          NULL      -- 신고시간
 );
 
 -- water
@@ -42,7 +42,7 @@ CREATE TABLE IoT_water (
 CREATE TABLE pig (
 	iot_ID INTEGER NULL , -- 기기번호
 	pig    INTEGER NULL, -- 돼지수
-	time   DATE    NULL,  -- 등록날짜
+	time   DATETIME    NULL,  -- 등록날짜
 	tx_hash VARCHAR(150) NULL -- 트랜잭션 해쉬값
 );
 
@@ -50,7 +50,7 @@ CREATE TABLE pig (
 CREATE TABLE water (
 	iot_ID      INTEGER      NULL, -- 기기번호
 	turbidity   INTEGER      NULL, -- 탁도
-	time        DATE         NULL, -- 등록시간
+	time        DATETIME         NULL, -- 등록시간
 	waterq      DOUBLE       NULL, -- 탁도/기준치
 	tx_hash VARCHAR(150) NULL  -- 트랜잭션 해쉬값
 );
