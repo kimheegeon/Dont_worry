@@ -56,9 +56,9 @@ app.get("/alert",function(req,res,next){
   if(req.query.status=="soso"){
     el.waterQ = 2;
   }else if(req.query.status=="good"){
-    el.waterQ = 3;
-  }else if(req.query.status =="bad"){
     el.waterQ = 1;
+  }else if(req.query.status =="bad"){
+    el.waterQ = 3;
   }
   el.status = req.query.status;
   console.log(el);

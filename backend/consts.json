@@ -1,11 +1,11 @@
 {
-    "db2":{
+    "db":{
         "host" : "database-1.cpsjgdlmaban.ap-northeast-2.rds.amazonaws.com",
         "user" : "admin",
         "password" : "dontworry1234",
         "database" : "dontworry"
     },
-    "db":{
+    "db2":{
         "host" : "localhost",
         "user" : "root",
         "password" :"root",

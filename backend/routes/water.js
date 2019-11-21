@@ -38,7 +38,7 @@ router.get('/checkWaterQ', function (req, res, next) {
     var x;
     var y;
     var address;
-    address = "제주시 만덕로 6길 32 일도1동)"; // 하드코딩
+    address = "서울 서초구 서초동 1623-1"; // 하드코딩
 
 
     var sql = "SELECT iw.iot_ID , iw.address , w.turbidity " +
@@ -56,8 +56,8 @@ router.get('/checkWaterQ', function (req, res, next) {
         else {
             console.log(results);
 
-            if (results.turbidity > 110) waterQ = 3;
-            else if (results.turbidity < 90) waterQ = 1;
+            if (results.turbidity > 105) waterQ = 3;
+            else if (results.turbidity < 95) waterQ = 1;
             else waterQ = 2;
 
             var data = Object();
@@ -116,7 +116,7 @@ router.get('/WaterQList', function (req, res, next) {
     var STATUS_CODE = "00";
     var WaterQList;
 
-    var sql =   "SELECT iw.iot_ID , iw.address AREA, w.waterq WATERQ, w.time " +
+    var sql =   "SELECT iw.iot_ID , iw.address AREA, w.turbidity WATERQ, w.time " +
                 "FROM IoT_water iw, water w " +
                 "WHERE iw.iot_ID = w.iot_ID ";
 
