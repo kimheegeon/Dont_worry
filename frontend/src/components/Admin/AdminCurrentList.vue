@@ -39,7 +39,7 @@
             <vue-loading type="spiningDubbles" v-if="loadingFlag" color="#3cb4d3" :size="{ width: '50px', height: '50px' }"></vue-loading>
         </div>
         <AdminDetailModal v-if="showModalDetail" @close="closeDetailModal(false)" @complete="closeDetailModal(true)" :current_no="current_no" :address="address" :search_date="search_date"></AdminDetailModal>
-        <ErrorModal v-if="showModalError" @close="showModalError=false" :title="modalErrTitle" :message="modalErrMessage"></ErrorModal>
+        <ErrorModal v-if="showModalError" @close="closeModal()" :title="modalErrTitle" :message="modalErrMessage"></ErrorModal>
     </div>
 </template>
 
@@ -166,6 +166,10 @@ export default {
     },
     closeDetailModal: function(coumplete){
       this.showModalDetail = false
+    },
+    closeModal: function(){
+      this.showModalError=false
+      this.getWaterQList()
     },
     ShowAlert: function(flag) {
       if(flag == true){

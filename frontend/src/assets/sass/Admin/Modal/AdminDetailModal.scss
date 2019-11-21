@@ -159,15 +159,16 @@ div {
     // 해상도 1200을 기점으로 표시
     @include mq-down('xl') {
       width: 60%;
-      height: 40vh;
+      height: 50vh;
       //    height: auto;
       // overflow-y: scroll;
       // overflow-x: hidden;
     }
     @include mq-up('xl') {
       //    height: auto;
-      height: 40vh;
+      height: 67vh;
       padding-bottom: 1%;
+      padding-top:4%;
       width: 60%;
     }
   }
